@@ -27,12 +27,33 @@ int** allocateMatrixMemoryC(int rows, int columns) {
 
 
 /**
- * Free memory for a matrix given its size.
+ * Allocate memory for a matrix given its size.
+ *
+ * @param rows    Number of rows.
+ * @param columns Number of columns.
+ * @return pointer to matrix.
+ */
+int** allocateMatrixMemoryCpp(int rows, int columns) {
+
+    // Return variable
+    int **matrix;
+    // Allocate memory for rows
+    matrix = new int *[rows];
+    // Allocate memory for columns
+    for (int i=0; i < rows; i++)
+        matrix[i] = (int*) new int[columns];
+
+    return matrix;
+}
+
+
+/**
+ * Free memory for a C style matrix given its size.
  *
  * @param rows  Number of rows.
  * @return      pointer to matrix.
  */
-void freeMatrix(int** arr, int rows) {
+void freeMatrixC(int** arr, int rows) {
 
     // Iterate rows
     for (int i = 0; i < rows; i++) {
@@ -41,6 +62,24 @@ void freeMatrix(int** arr, int rows) {
     }
     // Free rows pointer
     free(arr);
+}
+
+
+/**
+ * Free memory for a C++ style matrix given its size.
+ *
+ * @param rows  Number of rows.
+ * @return      pointer to matrix.
+ */
+void freeMatrixCpp(int** arr, int rows) {
+
+    // Iterate rows
+    for (int i = 0; i < rows; i++) {
+        // Free each column pointer
+        delete[] arr[i];
+    }
+    // Free rows pointer
+    delete[] arr;
 }
 
 
@@ -101,16 +140,23 @@ int main() {
 
     // Create C style matrix
     int** matrixC = allocateMatrixMemoryC(rows, columns);
+    // Create C++ style matrix
+    int** matrixCpp = allocateMatrixMemoryCpp(rows, columns);
 
     // Fill array data
 	populateArray(matrixC, rows, columns);
+	populateArray(matrixCpp, rows, columns);
 
     // Show array data
     cout << "\n Matrix C \n";
     printMatrix(matrixC, rows, columns);
 
+    cout << "\n Matrix C++ \n";
+    printMatrix(matrixCpp, rows, columns);
+
     // Deallocate memory block
-    freeMatrix(matrixC, rows);
+    freeMatrixC(matrixC, rows);
+    freeMatrixCpp(matrixCpp, rows);
 
     return 0;
 }
