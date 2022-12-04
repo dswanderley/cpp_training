@@ -12,7 +12,7 @@ using namespace std;
  * @param columns Number of columns.
  * @return pointer to matrix.
  */
-int** allocateMatrixMemory(int rows, int columns) {
+int** allocateMatrixMemoryC(int rows, int columns) {
 
     // Return variable
     int **matrix;
@@ -23,6 +23,24 @@ int** allocateMatrixMemory(int rows, int columns) {
         matrix[i] = (int*) malloc( columns * sizeof(int) );
 
     return matrix;
+}
+
+
+/**
+ * Free memory for a matrix given its size.
+ *
+ * @param rows  Number of rows.
+ * @return      pointer to matrix.
+ */
+void freeMatrix(int** arr, int rows) {
+
+    // Iterate rows
+    for (int i = 0; i < rows; i++) {
+        // Free each column pointer
+        free(arr[i]);
+    }
+    // Free rows pointer
+    free(arr);
 }
 
 
@@ -39,7 +57,7 @@ void populateArray(int** arr, int rows, int columns) {
     for (int i = 0; i < rows; i++) {
         // Iterate columns
         for (int j = 0; j < columns; j++) {
-            arr[i][j] =  i*rows + j + 1;
+            arr[i][j] =  i*columns + j + 1;
         }
     }
 }
@@ -69,6 +87,9 @@ void printMatrix(int** arr, int rows, int columns) {
 }
 
 
+/**
+ * MAIN FUNCTION
+*/
 int main() {
 
     // Get length from console
@@ -79,7 +100,7 @@ int main() {
     cin >> columns;
 
     // Create C style matrix
-    int** matrixC = allocateMatrixMemory(rows, columns);
+    int** matrixC = allocateMatrixMemoryC(rows, columns);
 
     // Fill array data
 	populateArray(matrixC, rows, columns);
@@ -88,10 +109,8 @@ int main() {
     cout << "\n Matrix C \n";
     printMatrix(matrixC, rows, columns);
 
-
     // Deallocate memory block
-    free(matrixC);
-    //free(arrayCpp);
+    freeMatrix(matrixC, rows);
 
     return 0;
 }
