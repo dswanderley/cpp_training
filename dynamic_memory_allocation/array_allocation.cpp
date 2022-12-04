@@ -60,7 +60,7 @@ int main() {
     // Create C style array
     int* arrayC = allocateArrayMemory(length);
     // Create C++ style array
-	int* arrayCpp = new int(length);
+	int* arrayCpp = new int[length];
 
     // Fill array data
 	populateArray(arrayC, length);
@@ -73,10 +73,16 @@ int main() {
     cout << "\n" << "---- Array C++ ----\n";
     printArray(arrayCpp, length);
 
-
     // Deallocate memory block
     free(arrayC);
-    free(arrayCpp);
+    delete[] arrayCpp;
+
+    /* Note:
+        The most important reason why free() should not be used
+        for de-allocating memory allocated using new is that,
+        it does not call the destructor of that object while
+        delete operator does.
+    */
 
     return 0;
 }
