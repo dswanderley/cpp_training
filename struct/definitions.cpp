@@ -1,4 +1,5 @@
-#include <iostream>
+#include <iostream>     // std::cout, std::endl
+#include <iomanip>      // std::setfill, std::setw
 
 
 /* Struct example */
@@ -14,13 +15,11 @@ struct PolarCoordinate {
 
 
 /* Defining a struct as a type */
-typedef struct Point CartesianCoordinate;
-
-typedef struct PolarCoordinate PolarCoordinate;
+typedef Point CartesianCoordinate;
 
 
 /* Defining directly */
-typedef struct Datetime
+struct Datetime
 {
     /* data */
     int year;
@@ -29,7 +28,7 @@ typedef struct Datetime
     int hour;
     int minute;
     int second;
-} Datetime;
+};
 
 
 /**
@@ -38,21 +37,21 @@ typedef struct Datetime
 int main() {
 
     /* struct */
-    struct Point pt;
+    Point pt;
     pt.x = 1;
     pt.y = 2;
-    std::cout << "My point is: (" << pt.x << ", " << pt.y << ").\n";
+    std::cout << "My point is: (" << pt.x << ", " << pt.y << ")." << std::endl;
 
     /* typedef struct */
     CartesianCoordinate coordC;
     coordC.x = 3;
     coordC.y = 4;
-    std::cout << "Cartesian coordinate: x = " << coordC.x << ", y = " << coordC.y << ".\n";
+    std::cout << "Cartesian coordinate: x = " << coordC.x << ", y = " << coordC.y << "." << std::endl;
 
     PolarCoordinate coordP;
     coordP.radius = 5.0;
     coordP.angle = 53; //°
-    std::cout << "Polar coordinate: r = " << coordP.radius << ", a = " << coordP.angle << "°.\n";
+    std::cout << "Polar coordinate: r = " << coordP.radius << ", a = " << coordP.angle << "°." << std::endl;
 
     /* typedef */
     Datetime dt;
@@ -63,8 +62,12 @@ int main() {
     dt.minute = 34;
     dt.second = 50;
     std::cout << "Datetime: " ;
-    std::cout << dt.year << "-" << dt.month << "-" << dt.day << " ";
-    std::cout << dt.hour << ":" << dt.minute << ":" << dt.second;
+    std::cout << dt.year << "-" ;
+    std::cout << std::setw(2) << std::setfill('0') << dt.month << "-" ;
+    std::cout << std::setw(2) << std::setfill('0') << dt.day << " ";
+    std::cout << std::setw(2) << std::setfill('0') << dt.hour << ":" ;
+    std::cout << std::setw(2) << std::setfill('0') << dt.minute << ":";
+    std::cout << std::setw(2) << std::setfill('0') << dt.second;
 
     return 0;
 }
