@@ -22,8 +22,6 @@ int* allocateArrayMemory(int len) {
 }
 
 
-
-
 /**
  * Print array values by index.
  *
@@ -58,11 +56,11 @@ int main() {
 	int* arrayCpp0s = new int[length] ();
 
     // Show array data
-    cout << "\n--- Array C malloc ---\n";
+    cout << "\n" << "---- Array C malloc ---\n";
     printArray(arrayMalloc, length);
 
     // Show array data
-    cout << "\n--- Array C calloc ---\n";
+    cout << "\n" << "---- Array C calloc ---\n";
     printArray(arrayCalloc, length);
 
     cout << "\n" << "------ Array C++ ------\n";
