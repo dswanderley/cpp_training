@@ -6,6 +6,12 @@ using namespace std;
 
 
 /**
+ * For more options:
+ * https://www.geeksforgeeks.org/dynamically-allocate-2d-array-c/
+ * /
+
+
+/**
  * Allocate memory for a matrix given its size.
  *
  * @param rows    Number of rows.
@@ -17,7 +23,7 @@ int** allocateMatrixMemoryC(int rows, int columns) {
     // Return variable
     int **matrix;
     // Allocate memory for rows
-    matrix = (int**) malloc( rows * sizeof(int*) );
+    matrix = (int**) malloc( rows * sizeof(int*) ); // The difference in malloc and calloc is that malloc does not set the memory to zero where as calloc sets allocated memory to zero.
     // Allocate memory for columns
     for (int i=0; i < rows; i++)
         matrix[i] = (int*) malloc( columns * sizeof(int) );
@@ -160,4 +166,3 @@ int main() {
 
     return 0;
 }
-
