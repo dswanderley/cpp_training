@@ -23,20 +23,6 @@ int* allocateArrayMemory(int len) {
 
 
 /**
- * Populate an array with position number (not index).
- *
- * @param arr Array pointer.
- * @param len Array length.
- */
-void populateArray(int* arr, int len) {
-
-    for (int i = 0; i < len; i++) {
-        arr[i] =  i + 1;
-    }
-}
-
-
-/**
  * Print array values by index.
  *
  * @param arr Array pointer.
@@ -57,32 +43,37 @@ int main() {
     cout << "Insert array length: ";
     cin >> length;
 
-    // Create C style array
-    int* arrayC = allocateArrayMemory(length);
+    // Create C style malloc array
+    int* arrayMalloc = (int*) malloc( length * sizeof(int) );
+
+    // Create C style malloc array
+    int* arrayCalloc = (int*) calloc(length, sizeof(int));
+
     // Create C++ style array
 	int* arrayCpp = new int[length];
 
-    // Fill array data
-	populateArray(arrayC, length);
-	populateArray(arrayCpp, length);
+    // Create C++ style array with 0s
+	int* arrayCpp0s = new int[length] ();
 
     // Show array data
-    cout << "\n----- Array C -----\n";
-    printArray(arrayC, length);
+    cout << "\n" << "---- Array C malloc ---\n";
+    printArray(arrayMalloc, length);
 
-    cout << "\n" << "---- Array C++ ----\n";
+    // Show array data
+    cout << "\n" << "---- Array C calloc ---\n";
+    printArray(arrayCalloc, length);
+
+    cout << "\n" << "------ Array C++ ------\n";
     printArray(arrayCpp, length);
 
-    // Deallocate memory block
-    free(arrayC);
-    delete[] arrayCpp;
+    cout << "\n" << "----- Array C++ 0 -----\n";
+    printArray(arrayCpp0s, length);
 
-    /* Note:
-        The most important reason why free() should not be used
-        for de-allocating memory allocated using new is that,
-        it does not call the destructor of that object while
-        delete operator does.
-    */
+    // Deallocate memory block
+    free(arrayMalloc);
+    free(arrayCalloc);
+    delete[] arrayCpp;
+    delete[] arrayCpp0s;
 
     return 0;
 }
