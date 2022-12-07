@@ -50,6 +50,35 @@ class ArraySimple {
             list = tempList;
         }
 
+
+        /**
+         * Insert an item at the end of the list.
+         *
+         * @param index
+         * @return The item
+        */
+        Item pop(unsigned int index) {
+
+            // Init temporary list
+            Item *tempList = new Item[length + 1];
+            // Get output item
+            Item item = list[index];
+            // Fill first part - before index
+            for (int i = 0; i < index; i++) {
+                tempList[i] = list[i];
+            }
+            // Fill second part - after index
+            for (int i = index + 1; i < length; i++) {
+                tempList[i-1] = list[i];
+            }
+            // Update private variables
+            length--;
+            list = tempList;
+
+            return item;
+        }
+
+
     public:
         /** Constructor **/
         ArraySimple() : length(0), list(new Item[0]) {}
@@ -74,7 +103,29 @@ class ArraySimple {
          * @param item
          * @param index
         */
-       void insert(Item item, unsigned int index) { push(item, index); };
+        void insert(Item item, unsigned int index) { push(item, index); };
+
+        /**
+         * Remove the first item from the list.
+         *
+         * @retunr item
+        */
+        Item removeFirst(void) { return pop(0); };
+
+        /**
+         * Remove the last item from the list.
+         *
+         * @retunr item
+        */
+        Item removeLast(void) { return pop(length-1); };
+
+        /**
+         * Remove an item from the list given an index.
+         *
+         * @param index
+         * @retunr item
+        */
+        Item remove(unsigned int index) { return pop(index); };
 
         /**
          * Print list to console.
@@ -92,9 +143,6 @@ class ArraySimple {
 
 
 
-
-
-
 int main() {
 
     Item item1{1};
@@ -107,6 +155,7 @@ int main() {
     ArraySimple array;
     array.print();
 
+    /* ADD ITEMS */
     array.append(item4);
     array.print();
 
@@ -123,6 +172,21 @@ int main() {
     array.print();
 
     array.append(item6);
+    array.print();
+
+    /* REMOVE ITEMS */
+    Item itemOut;
+
+    itemOut = array.removeFirst();  // 1
+    std::cout << "Item removed - index: " << itemOut.index << std::endl;
+    array.print();
+
+    itemOut = array.removeLast();   // 6
+    std::cout << "Item removed - index: " << itemOut.index << std::endl;
+    array.print();
+
+    itemOut = array.remove(2);      // 4
+    std::cout << "Item removed - index: " << itemOut.index << std::endl;
     array.print();
 
     return 0;
