@@ -17,7 +17,7 @@ class ArraySimple {
 
     protected:
         /** Print list function **/
-        void printList() {
+        void printList() const {
             std::cout << "List length: " << length << std::endl;
             for (int i = 0; i < length; i++) {
                 std::cout << "| " << list[i].index << " ";
@@ -32,7 +32,7 @@ class ArraySimple {
          *
          * @param item
         */
-        void push (Item item, unsigned int index) {
+        void push (const Item& item, unsigned int index) {
             // Init temporary list
             Item *tempList = new Item[length + 1];
             // Fill temporary list
@@ -95,14 +95,14 @@ class ArraySimple {
          *
          * @param item
         */
-        void append(Item item) { push(item, length); };
+        void append(const Item& item) { push(item, length); };
 
         /**
          * Insert an item at the begining of the list.
          *
          * @param item
         */
-        void insertInit(Item item) { push(item, 0); };
+        void insertInit(const Item& item) { push(item, 0); };
 
         /**
          * Insert an item at the given index position.
@@ -110,7 +110,7 @@ class ArraySimple {
          * @param item
          * @param index
         */
-        bool insert(Item item, unsigned int index) {
+        bool insert(const Item& item, unsigned int index) {
             bool ret = false;
             if (index >=0 && index < length) {
                 push(item, index);
