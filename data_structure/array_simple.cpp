@@ -48,7 +48,7 @@ class ArraySimple {
             // Update private properties
             length++;
             list = tempList;
-        }
+        };
 
 
         /**
@@ -57,26 +57,35 @@ class ArraySimple {
          * @param index
          * @return The item
         */
-        Item pop(unsigned int index) {
-
-            // Init temporary list
-            Item *tempList = new Item[length + 1];
-            // Get output item
-            Item item = list[index];
-            // Fill first part - before index
-            for (int i = 0; i < index; i++) {
-                tempList[i] = list[i];
+        Item pop(unsigned int index, bool &valid) {
+            // Output item
+            Item item;
+            // Validate index
+            if (length > 0 && index < length && index >=0 ) {
+                // Init temporary list
+                Item *tempList = new Item[length + 1];
+                // Get output item
+                item = list[index];
+                // Fill first part - before index
+                for (int i = 0; i < index; i++) {
+                    tempList[i] = list[i];
+                }
+                // Fill second part - after index
+                for (int i = index + 1; i < length; i++) {
+                    tempList[i-1] = list[i];
+                }
+                // Update private variables
+                length--;
+                list = tempList;
+                // Set valid variable
+                valid = true;
             }
-            // Fill second part - after index
-            for (int i = index + 1; i < length; i++) {
-                tempList[i-1] = list[i];
+            else {
+                valid = false;
             }
-            // Update private variables
-            length--;
-            list = tempList;
 
             return item;
-        }
+        };
 
 
     public:
@@ -103,29 +112,40 @@ class ArraySimple {
          * @param item
          * @param index
         */
-        void insert(Item item, unsigned int index) { push(item, index); };
+        bool insert(Item item, unsigned int index) {
+            bool ret = false;
+            if (index >=0 && index < length) {
+                push(item, index);
+                ret = true;
+            }
+
+            return ret;
+        };
 
         /**
          * Remove the first item from the list.
          *
-         * @retunr item
+         * @param valid
+         * @return item
         */
-        Item removeFirst(void) { return pop(0); };
+        Item removeFirst(bool &valid) { return pop(0, valid); };
 
         /**
          * Remove the last item from the list.
          *
-         * @retunr item
+         * @param valid
+         * @return item
         */
-        Item removeLast(void) { return pop(length-1); };
+        Item removeLast(bool &valid) { return pop(length-1, valid); };
 
         /**
          * Remove an item from the list given an index.
          *
+         * @param valid
          * @param index
-         * @retunr item
+         * @return item
         */
-        Item remove(unsigned int index) { return pop(index); };
+        Item remove(unsigned int index, bool &valid) { return pop(index, valid); };
 
         /**
          * Print list to console.
@@ -138,6 +158,7 @@ class ArraySimple {
          * @return length
         */
         int getLength() { return length; };
+
 
 };
 
@@ -176,17 +197,41 @@ int main() {
 
     /* REMOVE ITEMS */
     Item itemOut;
+    bool valid;
 
-    itemOut = array.removeFirst();  // 1
-    std::cout << "Item removed - index: " << itemOut.index << std::endl;
+    itemOut = array.removeFirst(valid);  // 1
+    if (valid)
+        std::cout << "\nItem removed - index: " << itemOut.index << std::endl;
+    else
+        std::cout << "\nItem not removed - the list is empty." << std::endl;
     array.print();
 
-    itemOut = array.removeLast();   // 6
-    std::cout << "Item removed - index: " << itemOut.index << std::endl;
+    itemOut = array.removeLast(valid);   // 6
+    if (valid)
+        std::cout << "\nItem removed - index: " << itemOut.index << std::endl;
+    else
+        std::cout << "\nItem not removed - the list is empty." << std::endl;
     array.print();
 
-    itemOut = array.remove(2);      // 4
-    std::cout << "Item removed - index: " << itemOut.index << std::endl;
+    itemOut = array.remove(2, valid);      // 4
+    if (valid)
+        std::cout << "\nItem removed - index: " << itemOut.index << std::endl;
+    else
+        std::cout << "\nItem not removed - index not valid." << std::endl;
+    array.print();
+
+    itemOut = array.remove(2, valid);      // 4
+    if (valid)
+        std::cout << "\nItem removed - index: " << itemOut.index << std::endl;
+    else
+        std::cout << "\nItem not removed - index not valid." << std::endl;
+    array.print();
+
+    itemOut = array.remove(2, valid);      // 4
+    if (valid)
+        std::cout << "\nItem removed - index: " << itemOut.index << std::endl;
+    else
+        std::cout << "\nItem not removed - index not valid." << std::endl;
     array.print();
 
     return 0;
