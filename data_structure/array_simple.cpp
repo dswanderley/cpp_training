@@ -50,7 +50,6 @@ class ArraySimple {
             list = tempList;
         };
 
-
         /**
          * Insert an item at the end of the list.
          *
@@ -86,7 +85,6 @@ class ArraySimple {
 
             return item;
         };
-
 
     public:
         /** Constructor **/
@@ -159,7 +157,21 @@ class ArraySimple {
         */
         int getLength() { return length; };
 
+        /**
+         * Implementation of [] operator.
+         *
+         * @param index
+         * @return List index value
+        */
+        Item& operator[](unsigned int index) {
+            // Check index
+            if (index < 0 || index >= length){
+                std::cout << "Array index out of bound.";
+                exit(0);
+            }
 
+            return list[index];
+        }
 };
 
 
@@ -194,6 +206,19 @@ int main() {
 
     array.append(item6);
     array.print();
+
+
+    /* VERIFY VALUE */
+    Item itemVal;
+
+    itemVal = array[0];
+    std::cout << "\n index: " << itemVal.index << std::endl;
+
+    itemVal = array[3];
+    std::cout << "\n index: " << itemVal.index << std::endl;
+
+    itemVal = array[5];
+    std::cout << "\n index: " << itemVal.index << std::endl;
 
     /* REMOVE ITEMS */
     Item itemOut;
