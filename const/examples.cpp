@@ -55,6 +55,24 @@ int main() {
     // *p_cint = 10;    /* error: assignment of read-only location */
 
 
+    /* CONSTANT POINTER */
+    int b = 0;
+
+    // Point to a variable
+    int * const p_int = &b;         // Address stored cannot be changed, only data
+    std::cout << "p_int (" << &p_int << ")" << std::endl;
+    std::cout << "Pointer to: " << p_int << ", value: " << *p_int << std::endl;
+
+    // Changing variable value
+    *p_int = 50;
+    std::cout << "p_int (" << &p_int << ")" << std::endl;
+    std::cout << "Pointer to: " << p_int << ", value: " << *p_int << std::endl;
+
+    // Change pointed variable/address.
+    // p_int = &a; /* error: assignment of read-only variable 'p_int'*/
+
+    // Point to a const
+    // int * const p2_int = &x; /* error: invalid conversion from 'const int*' to 'int*' [-fpermissive] */
 
     return 0;
 }
