@@ -34,7 +34,7 @@ private:
     unsigned int length;
 
 protected:
-    void addNode(const Data &data);
+    void addNode(const Data &data, unsigned int index);
     Data removeNode();
 
 public:
@@ -43,6 +43,7 @@ public:
 
     void print() const;
 
+    void append(const Data &data) { addNode(data, length); };
 };
 
 /**
@@ -81,10 +82,30 @@ void LinkedList::print() const
 }
 
 
-void LinkedList::addNode(const Data &data)
+void LinkedList::addNode(const Data &data, unsigned int index)
 {
-    Node Node{data, nullptr};
+    if (index < 0 || index > length) {
+        std::cout << "Invalid position." << std::endl;
+        return;
+    }
 
+    Node *temp;
+    Node *node = new Node();
+    node->data = data;
+    node->next = nullptr;
+
+    if (head == nullptr && tail == nullptr) {
+        head = node;
+        tail = node;
+
+        length++;
+    }
+    else if (index == length) {
+        tail->next = node;
+        tail = node;
+
+        length++;
+    }
 }
 
 Data LinkedList::removeNode()
@@ -104,10 +125,16 @@ int main()
 
     /* LINKED LIST */
     LinkedList llist = LinkedList();
-
     llist.print();
 
+    llist.append(data0);
+    llist.print();
 
+    llist.append(data1);
+    llist.print();
+    
+    llist.append(data2);
+    llist.print();
 
     return 0;
 }
