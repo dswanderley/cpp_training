@@ -1,21 +1,31 @@
 #include <iostream>
+#include <iomanip>      // std::setfill, std::setw
 #include <string>
 
 
+/**
+ * Our data
+*/
 struct  Data
 {
     unsigned int id;
-    std::string name;
+    std::string description;
 };
 
 
+/**
+ * Linked List node
+*/
 struct Node
 {
-    int data;
+    Data data;
     Node *next;
 };
 
 
+/**
+ * Linked List class
+*/
 class LinkedList
 {
 private:
@@ -24,8 +34,8 @@ private:
     unsigned int length;
 
 protected:
-    void addNode(const int &id);
-    int removeNode();
+    void addNode(const Data &data);
+    Data removeNode();
 
 public:
     LinkedList();
@@ -35,43 +45,67 @@ public:
 
 };
 
+/**
+ * Constructor
+*/
 LinkedList::LinkedList() : head(nullptr), tail(nullptr), length(0)
 {
 }
 
+/**
+ * Destructor
+*/
 LinkedList::~LinkedList()
 {
 }
 
+/**
+ * Print list to console
+*/
 void LinkedList::print() const
 {
     Node *temp = this->head;
 
+    std::cout << "Printing list of length " << length << "." << std::endl;
+
+    int index = 0;
     while( temp != nullptr ) {
-        std::cout << temp->data << " | ";
+        std::cout << "(" << std::setw(2) << std::setfill('0') << index << ") ";
+        std::cout << "id: "             << temp->data.id << ", ";
+        std::cout << "description: "    << temp->data.description << std::endl;
 
         temp = temp->next;
     }
+
+    std::cout << std::endl;
 }
 
 
-void LinkedList::addNode(const int &id)
+void LinkedList::addNode(const Data &data)
 {
-    Node
+    Node Node{data, nullptr};
 
 }
 
-int LinkedList::removeNode()
+Data LinkedList::removeNode()
 {
-    return Node();
+    return Data();
 }
-
-
 
 
 int main()
 {
+    /* MY DATA */
+    Data data0{0, "Zero ground"};
+    Data data1{1, "First data"};
+    Data data2{2, "Second data"};
+    Data data3{3, "Third data"};
+    Data data4{4, "Something generic"};
+
+    /* LINKED LIST */
     LinkedList llist = LinkedList();
+
+    llist.print();
 
 
 
