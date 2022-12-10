@@ -43,6 +43,7 @@ public:
 
     void print() const;
 
+    void push(const Data &data) { addNode(data, 0); };
     void append(const Data &data) { addNode(data, length); };
 };
 
@@ -89,7 +90,6 @@ void LinkedList::addNode(const Data &data, unsigned int index)
         return;
     }
 
-    Node *temp;
     Node *node = new Node();
     node->data = data;
     node->next = nullptr;
@@ -97,15 +97,17 @@ void LinkedList::addNode(const Data &data, unsigned int index)
     if (head == nullptr && tail == nullptr) {
         head = node;
         tail = node;
-
-        length++;
     }
     else if (index == length) {
         tail->next = node;
         tail = node;
-
-        length++;
     }
+    else if (index == 0) {
+        node->next = head;
+        head = node;
+    }
+
+    length++;
 }
 
 Data LinkedList::removeNode()
@@ -127,13 +129,13 @@ int main()
     LinkedList llist = LinkedList();
     llist.print();
 
-    llist.append(data0);
-    llist.print();
-
     llist.append(data1);
     llist.print();
-    
-    llist.append(data2);
+
+    llist.append(data3);
+    llist.print();
+
+    llist.push(data0);
     llist.print();
 
     return 0;
