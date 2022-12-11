@@ -33,38 +33,64 @@ private:
     Node *tail;
     unsigned int length;
 
+    void startList(Node *&newNode);
+    void insertAtInit(Node *&newNode);
+    void insertAtEnd(Node *&newNode);
+    void insertAtPos(Node *&newNode, unsigned int index);
+
 protected:
     void addNode(const Data &data, unsigned int index);
     Data removeNode();
 
 public:
+    /**
+     * Constructor
+    */
     LinkedList();
+    /**
+     * Destructor
+    */
     ~LinkedList();
 
+    /**
+     * Print list to console
+    */
     void print() const;
 
+    /**
+     * @brief Insert new data at the begining of the list.
+     *
+     * @param data new data
+     */
     void push(const Data &data) { addNode(data, 0); };
+
+    /**
+     * @brief Insert new data at the end of the list.
+     *
+     * @param data new data
+     */
     void append(const Data &data) { addNode(data, length); };
+
+    /**
+     * @brief Insert new data at a given index postion.
+     *
+     * @param data new data
+     * @param idx index/positon
+     */
     void insertAt(const Data &data, unsigned int idx) { addNode(data, idx); }
 };
 
-/**
- * Constructor
-*/
+
 LinkedList::LinkedList() : head(nullptr), tail(nullptr), length(0)
 {
 }
 
-/**
- * Destructor
-*/
 LinkedList::~LinkedList()
 {
 }
 
-/**
- * Print list to console
-*/
+/* PRINTING METHOD */
+
 void LinkedList::print() const
 {
     Node *temp = this->head;
@@ -84,6 +110,8 @@ void LinkedList::print() const
 }
 
 
+/* INSERTIONS METHODS */
+
 void LinkedList::addNode(const Data &data, unsigned int index)
 {
     if (index < 0 || index > length) {
@@ -96,31 +124,54 @@ void LinkedList::addNode(const Data &data, unsigned int index)
     newNode->next = nullptr;
 
     if (head == nullptr && tail == nullptr) {
-        head = newNode;
-        tail = newNode;
+        startList(newNode);
     }
     else if (index == length) {
-        tail->next = newNode;
-        tail = newNode;
+        insertAtEnd(newNode);
     }
     else if (index == 0) {
-        newNode->next = head;
-        head = newNode;
+        insertAtInit(newNode);
     }
     else {
-        Node *currNode = head;
-        int i = 0;
-        while (i < index-1)
-        {
-            currNode = currNode->next;
-            i++;
-        }
-        newNode->next = currNode->next;
-        currNode->next = newNode;
+       insertAtPos(newNode, index);
     }
 
     length++;
 }
+
+void LinkedList::startList(Node *&newNode)
+{
+    head = newNode;
+    tail = newNode;
+}
+
+void LinkedList::insertAtInit(Node *&newNode)
+{
+    newNode->next = head;
+    head = newNode;
+}
+
+void LinkedList::insertAtEnd(Node *&newNode)
+{
+    tail->next = newNode;
+    tail = newNode;
+}
+
+void LinkedList::insertAtPos(Node *&newNode, unsigned int index)
+{
+    Node *currNode = head;
+    int i = 0;
+    while (i < index-1)
+    {
+        currNode = currNode->next;
+        i++;
+    }
+    newNode->next = currNode->next;
+    currNode->next = newNode;
+}
+
+
+/* REMOVALS METHODS */
 
 Data LinkedList::removeNode()
 {
@@ -128,6 +179,11 @@ Data LinkedList::removeNode()
 }
 
 
+/**
+ * @brief Main function
+ *
+ * @return int return condition
+ */
 int main()
 {
     /* MY DATA */
