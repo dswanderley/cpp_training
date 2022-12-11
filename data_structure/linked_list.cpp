@@ -45,6 +45,7 @@ public:
 
     void push(const Data &data) { addNode(data, 0); };
     void append(const Data &data) { addNode(data, length); };
+    void insertAt(const Data &data, unsigned int idx) { addNode(data, idx); }
 };
 
 /**
@@ -90,21 +91,32 @@ void LinkedList::addNode(const Data &data, unsigned int index)
         return;
     }
 
-    Node *node = new Node();
-    node->data = data;
-    node->next = nullptr;
+    Node *newNode = new Node();
+    newNode->data = data;
+    newNode->next = nullptr;
 
     if (head == nullptr && tail == nullptr) {
-        head = node;
-        tail = node;
+        head = newNode;
+        tail = newNode;
     }
     else if (index == length) {
-        tail->next = node;
-        tail = node;
+        tail->next = newNode;
+        tail = newNode;
     }
     else if (index == 0) {
-        node->next = head;
-        head = node;
+        newNode->next = head;
+        head = newNode;
+    }
+    else {
+        Node *currNode = head;
+        int i = 0;
+        while (i < index-1)
+        {
+            currNode = currNode->next;
+            i++;
+        }
+        newNode->next = currNode->next;
+        currNode->next = newNode;
     }
 
     length++;
@@ -132,10 +144,16 @@ int main()
     llist.append(data1);
     llist.print();
 
-    llist.append(data3);
+    llist.append(data4);
     llist.print();
 
     llist.push(data0);
+    llist.print();
+
+    llist.insertAt(data2, 2);
+    llist.print();
+
+    llist.insertAt(data3, 3);
     llist.print();
 
     return 0;
