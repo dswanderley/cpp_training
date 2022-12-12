@@ -38,9 +38,14 @@ private:
     void insertAtEnd(Node *&newNode);
     void insertAtPos(Node *&newNode, unsigned int index);
 
+    //void clearList();
+    Data removeFromInit();
+    Data removeFromEnd();
+    Data removeFromPos(unsigned int index);
+
 protected:
     void addNode(const Data &data, unsigned int index);
-    Data removeNode();
+    Data removeNode(unsigned int index);
 
 public:
     /**
@@ -77,7 +82,11 @@ public:
      * @param data new data
      * @param idx index/positon
      */
-    void insertAt(const Data &data, unsigned int idx) { addNode(data, idx); }
+    void insertAt(const Data &data, unsigned int idx) { addNode(data, idx); };
+
+    Data pop() { return removeNode(length-1); };
+    Data remove() { return removeNode(0); };
+    Data removeFrom(unsigned int idx) { return removeNode(idx); };
 };
 
 
@@ -173,11 +182,41 @@ void LinkedList::insertAtPos(Node *&newNode, unsigned int index)
 
 /* REMOVALS METHODS */
 
-Data LinkedList::removeNode()
+Data LinkedList::removeNode(unsigned int index)
 {
-    return Data();
+    Data data{};
+
+    if (index < 0 || index >= length) {
+        std::cout << "Invalid position." << std::endl;
+        return data;
+    }
+
+    if (head == nullptr) {
+        std::cout << "The list is empty." << std::endl;
+        return data;
+    }
+
+    if (index == length) {
+        //data = removeFromEnd();
+    }
+    else if (index == 0) {
+        data = removeFromInit();
+    }
+    else{
+        //data = removeFromPos(index);
+    }
+
+    return data;
 }
 
+
+Data LinkedList::removeFromInit()
+{
+    Data data = head->data;
+    head = head->next;
+
+    return data;
+}
 
 /**
  * @brief Main function
@@ -210,6 +249,10 @@ int main()
     llist.print();
 
     llist.insertAt(data3, 3);
+    llist.print();
+
+    Data dataOut = llist.remove();
+    std::cout << "id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
     return 0;
