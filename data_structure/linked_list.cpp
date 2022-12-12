@@ -141,7 +141,7 @@ void LinkedList::print() const
 
 void LinkedList::addNode(const Data &data, unsigned int index)
 {
-    if (index < 0 || index > length) {
+    if (index > length) {
         std::cout << "Invalid position." << std::endl;
         return;
     }
@@ -209,7 +209,7 @@ Data LinkedList::removeNode(unsigned int index)
         return data;
     }
     // Invalid index
-    if (index < 0 || index >= length) {
+    if (index >= length) {
         std::cout << "Invalid position - index = " << index << std::endl << std::endl;
         return data;
     }
@@ -358,14 +358,14 @@ int main()
     llist.print();
 
     // Invalid remove postion
-    dataOut = llist.removeFrom(2);
+    llist.removeFrom(2);
 
     dataOut = llist.pop();
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
     // Invalid remove postion
-    dataOut = llist.remove();
+    llist.remove();
 
     return 0;
 }

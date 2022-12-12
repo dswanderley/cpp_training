@@ -58,9 +58,9 @@ class ArraySimple {
         */
         Item pop(unsigned int index, bool &valid) {
             // Output item
-            Item item;
+            Item item{};
             // Validate index
-            if (length > 0 && index < length && index >=0 ) {
+            if (length > 0 && index < length) {
                 // Init temporary list
                 Item *tempList = new Item[length + 1];
                 // Get output item
@@ -88,7 +88,7 @@ class ArraySimple {
 
     public:
         /** Constructor **/
-        ArraySimple() : length(0), list(new Item[0]) {}
+        ArraySimple() : length(0), list{} {}
 
         /**
          * Insert an item at the end of the list.
@@ -112,7 +112,7 @@ class ArraySimple {
         */
         bool insert(const Item& item, unsigned int index) {
             bool ret = false;
-            if (index >=0 && index < length) {
+            if (index < length) {
                 push(item, index);
                 ret = true;
             }
@@ -165,7 +165,7 @@ class ArraySimple {
         */
         Item& operator[](unsigned int index) {
             // Check index
-            if (index < 0 || index >= length){
+            if (index >= length){
                 std::cout << "Array index out of bound.";
                 exit(0);
             }
