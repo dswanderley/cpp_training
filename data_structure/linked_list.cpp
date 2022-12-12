@@ -185,14 +185,14 @@ void LinkedList::insertAtPos(Node *&newNode, unsigned int index)
 Data LinkedList::removeNode(unsigned int index)
 {
     Data data{};
-    // Invalid index
-    if (index < 0 || index >= length) {
-        std::cout << "Invalid position." << std::endl;
-        return data;
-    }
     // Empty list case
     if (head == nullptr) {
-        std::cout << "The list is empty." << std::endl;
+        std::cout << "The list is empty." << std::endl << std::endl;
+        return data;
+    }
+    // Invalid index
+    if (index < 0 || index >= length) {
+        std::cout << "Invalid position - index = " << index << std::endl << std::endl;
         return data;
     }
     // Removing node cases
@@ -216,36 +216,50 @@ Data LinkedList::removeNode(unsigned int index)
 
 Data LinkedList::removeSingle()
 {
+    // Get data
     Data data = head->data;
+    // Store node to be deleted
+    Node *tempNode = head;
+    // Clear reference pointers
     head = nullptr;
     tail = nullptr;
+    // Delete removed node
+    delete tempNode;
 
     return data;
 }
 
-
 Data LinkedList::removeFromEnd()
 {
     Node *currNode = head;
+    Node *nextNode = head->next;        // needed to delete node pointer and keep only data
     // Iterate through nodes until next be the tail
-    while (currNode->next->next != nullptr)
+    while (nextNode->next != nullptr)
     {
-        currNode = currNode->next;          // Update current node
+        currNode = nextNode;
+        nextNode = nextNode->next;
     }
     // Get next (tail) data
-    Data data = currNode->next->data;
+    Data data = nextNode->data;
     // Update tail with current node
     tail = currNode;
     tail->next = nullptr;
+    // Clear removed node
+    delete nextNode;
 
     return data;
 }
 
 Data LinkedList::removeFromInit()
 {
+    // Get data
     Data data = head->data;
+    // Create a tempNode to be deleted
+    Node *tempNode = head;
+    // Set new head
     head = head->next;
-
+    // Delete old head
+    delete tempNode;
 
     return data;
 }
@@ -253,20 +267,23 @@ Data LinkedList::removeFromInit()
 Data LinkedList::removeFromPos(unsigned int idx)
 {
     Node *currNode = head;
+    Node *nextNode = head->next;
     unsigned int i = 0;
     // Iterate through nodes until previous node
     while (i < idx-1) {
         currNode = currNode->next;
+        nextNode = currNode->next;
         i++;
     }
     // Get data
-    Data data = currNode->next->data;
+    Data data = nextNode->data;
     // Update next node
-    currNode->next = currNode->next->next;
+    currNode->next = nextNode->next;
+    // Delete removed node
+    delete nextNode;
 
     return data;
 }
-
 
 
 /**
@@ -287,6 +304,8 @@ int main()
     LinkedList llist = LinkedList();
     llist.print();
 
+    /* Add data */
+
     llist.append(data1);
     llist.print();
 
@@ -301,6 +320,8 @@ int main()
 
     llist.insertAt(data3, 3);
     llist.print();
+
+    /* Remove data */
 
     Data dataOut = llist.remove();
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
@@ -318,9 +339,15 @@ int main()
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
+    // Invalid remove postion
+    dataOut = llist.removeFrom(2);
+
     dataOut = llist.pop();
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
+
+    // Invalid remove postion
+    dataOut = llist.remove();
 
     return 0;
 }
