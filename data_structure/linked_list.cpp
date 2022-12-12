@@ -84,8 +84,26 @@ public:
      */
     void insertAt(const Data &data, unsigned int idx) { addNode(data, idx); };
 
+    /**
+     * @brief Remove the last data from the list.
+     *
+     * @return Data removed data
+     */
     Data pop() { return removeNode(length-1); };
+
+    /**
+     * @brief Remove the frist data from the list.
+     *
+     * @return Data removed data
+     */
     Data remove() { return removeNode(0); };
+
+    /**
+     * @brief Remove data from the list given a index/position.
+     *
+     * @param idx index
+     * @return Data removed data
+     */
     Data removeFrom(unsigned int idx) { return removeNode(idx); };
 };
 
