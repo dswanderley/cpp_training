@@ -37,17 +37,17 @@ class ArraySimple {
             Item *tempList = new Item[length + 1];
             // Fill temporary list
             for (int i = 0; i < index; i++) {
-                tempList[i] = list[i];
+                tempList[i] = std::move(list[i]);
             }
             // Insert new item
-            tempList[index] = item;
+            tempList[index] = std::move(item);
             // Complete list
             for (int i = index; i < length; i++) {
-                tempList[i+1] = list[i];
+                tempList[i+1] = std::move(list[i]);
             }
             // Update private properties
             length++;
-            list = tempList;
+            list = std::move(tempList);
         };
 
         /**
@@ -64,18 +64,18 @@ class ArraySimple {
                 // Init temporary list
                 Item *tempList = new Item[length + 1];
                 // Get output item
-                item = list[index];
+                item = std::move(list[index]);
                 // Fill first part - before index
                 for (int i = 0; i < index; i++) {
-                    tempList[i] = list[i];
+                    tempList[i] = std::move(list[i]);
                 }
                 // Fill second part - after index
                 for (int i = index + 1; i < length; i++) {
-                    tempList[i-1] = list[i];
+                    tempList[i-1] = std::move(list[i]);
                 }
                 // Update private variables
                 length--;
-                list = tempList;
+                list = std::move(tempList);
                 // Set valid variable
                 valid = true;
             }
