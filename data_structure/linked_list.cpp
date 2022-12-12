@@ -206,7 +206,7 @@ Data LinkedList::removeNode(unsigned int index)
         data = removeFromInit();
     }
     else{
-        //data = removeFromPos(index);
+        data = removeFromPos(index);
     }
 
     length--;
@@ -241,19 +241,22 @@ Data LinkedList::removeFromInit()
     return data;
 }
 
-/*
-Data LinkedList::removeFrom(unsigned int idx)
+Data LinkedList::removeFromPos(unsigned int idx)
 {
     Node *currNode = head;
     unsigned int i = 0;
-
-    while (i < idx) {
-
+    // Iterate through nodes until previous node
+    while (i < idx-1) {
+        currNode = currNode->next;
         i++;
     }
+    // Get data
+    Data data = currNode->next->data;
+    // Update next node
+    currNode->next = currNode->next->next;
 
-    return Data()
-}/*/
+    return data;
+}
 
 
 
@@ -291,11 +294,11 @@ int main()
     llist.print();
 
     Data dataOut = llist.remove();
-    std::cout << "id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
-    dataOut = llist.pop();
-    std::cout << "id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    dataOut = llist.removeFrom(2);
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
     dataOut = llist.pop();
