@@ -38,7 +38,7 @@ private:
     void insertAtEnd(Node *&newNode);
     void insertAtPos(Node *&newNode, unsigned int index);
 
-    Data clearList();
+    Data removeSingle();
     Data removeFromInit();
     Data removeFromEnd();
     Data removeFromPos(unsigned int index);
@@ -218,20 +218,16 @@ Data LinkedList::removeNode(unsigned int index)
 Data LinkedList::removeFromEnd()
 {
     Node *currNode = head;
-    Node *nextNode = head->next;
-
-    while (nextNode->next != nullptr)
+    // Iterate through nodes until next be the tail
+    while (currNode->next->next != nullptr)
     {
-        currNode = nextNode;
-        nextNode = currNode->next;
+        currNode = currNode->next;          // Update current node
     }
-
+    // Get next (tail) data
+    Data data = currNode->next->data;
+    // Update tail with current node
     tail = currNode;
     tail->next = nullptr;
-
-    Data data = nextNode->data;
-
-    delete nextNode;
 
     return data;
 }
@@ -244,6 +240,22 @@ Data LinkedList::removeFromInit()
 
     return data;
 }
+
+/*
+Data LinkedList::removeFrom(unsigned int idx)
+{
+    Node *currNode = head;
+    unsigned int i = 0;
+
+    while (i < idx) {
+
+        i++;
+    }
+
+    return Data()
+}/*/
+
+
 
 /**
  * @brief Main function
@@ -279,6 +291,10 @@ int main()
     llist.print();
 
     Data dataOut = llist.remove();
+    std::cout << "id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    llist.print();
+
+    dataOut = llist.pop();
     std::cout << "id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
