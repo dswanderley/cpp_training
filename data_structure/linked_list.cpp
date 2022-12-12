@@ -185,19 +185,19 @@ void LinkedList::insertAtPos(Node *&newNode, unsigned int index)
 Data LinkedList::removeNode(unsigned int index)
 {
     Data data{};
-
+    // Invalid index
     if (index < 0 || index >= length) {
         std::cout << "Invalid position." << std::endl;
         return data;
     }
-
+    // Empty list case
     if (head == nullptr) {
         std::cout << "The list is empty." << std::endl;
         return data;
     }
-
+    // Removing node cases
     if (head->next == nullptr){
-        //data = clearList();
+        data = removeSingle();
     }
     else if (index == length-1) {
         data = removeFromEnd();
@@ -208,8 +208,17 @@ Data LinkedList::removeNode(unsigned int index)
     else{
         data = removeFromPos(index);
     }
-
+    // Decrement list length
     length--;
+
+    return data;
+}
+
+Data LinkedList::removeSingle()
+{
+    Data data = head->data;
+    head = nullptr;
+    tail = nullptr;
 
     return data;
 }
@@ -301,10 +310,17 @@ int main()
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
-    dataOut = llist.pop();
-    std::cout << "id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    dataOut = llist.removeFrom(1);
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
     llist.print();
 
+    dataOut = llist.pop();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    llist.print();
+
+    dataOut = llist.pop();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    llist.print();
 
     return 0;
 }
