@@ -36,7 +36,7 @@ void Stack<T, max>::print()
     else {
         std::cout << "STACK: | ";
         for (int i = 0; i < height; i++) {
-        std::cout << i << " | ";
+        std::cout << arr[i] << " | ";
         }
     }
     std::cout << std::endl;
