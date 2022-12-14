@@ -54,6 +54,7 @@ T Stack<T, max>::pop()
     }
     else {
         item = std::move(arr[--height]);
+        arr[height] = T{};      // Optional
     }
 
     return item;
@@ -62,12 +63,33 @@ T Stack<T, max>::pop()
 
 int main() {
 
-    Stack<int, 5> myStack;
+    Stack<int, 5> stack05;
+    Stack<int> stack10;
 
-    Stack<int> stack;
 
-    int a = 5;
-    int b = 5;
+    for (int i = 0; i < 10; i++) {
+
+        if (!stack05.isFull())
+            stack05.push(i+1);
+
+        if (!stack10.isFull())
+            stack10.push(i+1);
+    }
+
+
+    while (stack10.getSize() > 0) {
+
+        if (!stack05.isEmpty()) {
+            auto item05 = stack05.pop();
+        }
+
+        if (!stack10.isEmpty()) {
+            auto item10 = stack10.pop();
+        }
+
+    }
+
+
 
     return 0;
 }
