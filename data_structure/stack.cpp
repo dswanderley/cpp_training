@@ -4,13 +4,14 @@
 
 /*** DESCRIPTION ***/
 
-template <typename T>
+template <typename T, unsigned int max=10>      // Define MAX with template because we cannot define array lenght during constructor
 class Stack
 {
 private:
-    /* data */
+    T arr[max];
+    unsigned int height;
 public:
-    Stack (/* args */);
+    Stack ();
     ~Stack ();
                 // Template is not repeatede during for definition inside the description scope.
 };
@@ -18,13 +19,13 @@ public:
 
 /*** DEFINITION ***/
 
-template <typename T>           // Template must be repetade during definition outside descripiton scope.
-Stack<T>::Stack(/* args */)
+template <typename T, unsigned int max>           // Template must be repetade during definition outside descripiton scope.
+Stack<T, max>::Stack() : height(0), arr{}
 {
 }
 
-template <typename T>
-Stack<T>::~Stack()
+template <typename T, unsigned int max>
+Stack<T, max>::~Stack()
 {
 }
 
@@ -32,6 +33,9 @@ Stack<T>::~Stack()
 
 int main() {
 
+    Stack<int, 5> myStack;
+
+    Stack<int> stack;
 
     return 0;
 }
