@@ -11,24 +11,33 @@ private:
     T arr[max];
     unsigned int height;
 public:
-    Stack ();
-    ~Stack ();
-                // Template is not repeatede during for definition inside the description scope.
+    Stack () : height(0), arr{} {};
+    ~Stack () {};                           // Template is not repeatede during for definition inside the description scope.
+
+    bool isEmpty() { return (height == 0); };
+    bool isFull() { return (height == max); };
+    unsigned int getSize() { return height; };
+
+    bool push(const T& item);
+    T    pop();
+    T    peek();
 };
 
 
 /*** DEFINITION ***/
 
-template <typename T, unsigned int max>           // Template must be repetade during definition outside descripiton scope.
-Stack<T, max>::Stack() : height(0), arr{}
+template <typename T, unsigned int max>     // Template must be repetade during definition outside descripiton scope.
+bool Stack<T, max>::push(const T& item)
 {
+    return true;
 }
+
 
 template <typename T, unsigned int max>
-Stack<T, max>::~Stack()
+T Stack<T, max>::pop()
 {
+    return true;
 }
-
 
 
 int main() {
