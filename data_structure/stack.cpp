@@ -29,14 +29,34 @@ public:
 template <typename T, unsigned int max>     // Template must be repetade during definition outside descripiton scope.
 bool Stack<T, max>::push(const T& item)
 {
-    return true;
+    bool ret;
+
+    if ( isFull() ) {
+        std::cout << "The stack is full!" << std::endl;
+        ret = false;
+    }
+    else{
+        arr[height++] = item;
+        ret = true;
+    }
+
+    return ret;
 }
 
 
 template <typename T, unsigned int max>
 T Stack<T, max>::pop()
 {
-    return true;
+    T item{};
+
+    if ( isEmpty() ) {
+        std::cout << "The stack is empty!" << std::endl;
+    }
+    else {
+        item = std::move(arr[--height]);
+    }
+
+    return item;
 }
 
 
@@ -45,6 +65,9 @@ int main() {
     Stack<int, 5> myStack;
 
     Stack<int> stack;
+
+    int a = 5;
+    int b = 5;
 
     return 0;
 }
