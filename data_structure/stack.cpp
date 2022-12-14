@@ -27,6 +27,22 @@ public:
 
 /*** DEFINITION ***/
 
+template <typename T, unsigned int max>
+void Stack<T, max>::print()
+{
+    if (isEmpty()){
+        std::cout << "STACK EMPTY";
+    }
+    else {
+        std::cout << "STACK: | ";
+        for (int i = 0; i < height; i++) {
+        std::cout << i << " | ";
+        }
+    }
+    std::cout << std::endl;
+}
+
+
 template <typename T, unsigned int max>     // Template must be repetade during definition outside descripiton scope.
 bool Stack<T, max>::push(const T& item)
 {
@@ -63,19 +79,21 @@ T Stack<T, max>::pop()
 
 
 template <typename T, unsigned int max>
-void Stack<T, max>::print()
+T Stack<T, max>::peek()
 {
-    if (isEmpty()){
-        std::cout << "STACK EMPTY";
+    T item{};
+
+    if ( isEmpty() ) {
+        std::cout << "The stack is empty!" << std::endl;
     }
     else {
-        std::cout << "STACK: | ";
-        for (int i = 0; i < height; i++) {
-        std::cout << i << " | ";
-        }
+        item = arr[height-1];
     }
-    std::cout << std::endl;
+
+    return item;
 }
+
+
 
 
 int main() {
@@ -96,6 +114,9 @@ int main() {
     }
 
     stack10.print();
+
+    // Check peek
+    std::cout << "Stack10 peek is: " << stack10.peek() << std::endl;
 
     // Pop data
     while (stack10.getSize() > 0) {
