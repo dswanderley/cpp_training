@@ -12,7 +12,7 @@ template<class T, uint size=10>
 class Queue
 {
  public:
-    Queue() : queue{}, length(0) {}
+    Queue() : queue{}, mutex{}, condition{}, length(0) {}
     ~Queue() {}
 
     T lookFirst() const { return queue[0]; }
@@ -29,6 +29,8 @@ class Queue
 
  private:
     std::array<T, size> queue;
+    mutable std::mutex mutex;
+    std::condition_variable condition;
     uint length;
 };
 
@@ -69,6 +71,7 @@ T Queue<T, size>::pop()
 template<class T, uint size>
 T Queue<T, size>::pop_safe()
 {
+    
 
 }
 
@@ -86,6 +89,19 @@ bool Queue<T, size>::push(const T& item)
     else {
         std::cout << "FULL QUEUE!" << std::endl;
     }
+
+    return pushed;
+}
+
+template<class T, uint size>
+bool Queue<T, size>::push_safe(const T& item)
+{
+    bool pushed = false;
+    // unique_lock prevents mutex from getting locked in case of exception
+    std::unique_lock<std::mutex> lock(mutex);
+    pushed = push(item);
+    // Alert all that mutex was released
+    condition.notify_all();
 
     return pushed;
 }
