@@ -48,8 +48,7 @@ T Queue<T, size>::pop()
     if (length == 0) {
         std::cout << "EMPTY QUEUE!" << std::endl;
     }
-    else
-    {
+    else {
         item = std::move( queue[0] );
 
         for (uint i = 0; i < length; i++) {
