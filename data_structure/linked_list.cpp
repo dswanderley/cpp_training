@@ -3,13 +3,16 @@
 #include <string>
 
 
+typedef unsigned int uint;
+
+
 /**
  * Our data
 */
 struct  Data
 {
-    unsigned int id;
     std::string description;
+    uint id;
 };
 
 
@@ -31,21 +34,21 @@ class LinkedList
 private:
     Node *head;
     Node *tail;
-    unsigned int length;
+    uint length;
 
     void startList(Node *&newNode);
     void insertAtInit(Node *&newNode);
     void insertAtEnd(Node *&newNode);
-    void insertAtPos(Node *&newNode, unsigned int index);
+    void insertAtPos(Node *&newNode, uint index);
 
     Data removeSingle();
     Data removeFromInit();
     Data removeFromEnd();
-    Data removeFromPos(unsigned int index);
+    Data removeFromPos(uint index);
 
 protected:
-    void addNode(const Data &data, unsigned int index);
-    Data removeNode(unsigned int index);
+    void addNode(const Data &data, uint index);
+    Data removeNode(uint index);
 
 public:
     /**
@@ -82,7 +85,7 @@ public:
      * @param data new data
      * @param idx index/positon
      */
-    void insertAt(const Data &data, unsigned int idx) { addNode(data, idx); };
+    void insertAt(const Data &data, uint idx) { addNode(data, idx); };
 
     /**
      * @brief Remove the last data from the list.
@@ -104,7 +107,7 @@ public:
      * @param idx index
      * @return Data removed data
      */
-    Data removeFrom(unsigned int idx) { return removeNode(idx); };
+    Data removeFrom(uint idx) { return removeNode(idx); };
 };
 
 
@@ -139,7 +142,7 @@ void LinkedList::print() const
 
 /* INSERTIONS METHODS */
 
-void LinkedList::addNode(const Data &data, unsigned int index)
+void LinkedList::addNode(const Data &data, uint index)
 {
     if (index > length) {
         std::cout << "Invalid position." << std::endl;
@@ -184,7 +187,7 @@ void LinkedList::insertAtEnd(Node *&newNode)
     tail = newNode;
 }
 
-void LinkedList::insertAtPos(Node *&newNode, unsigned int index)
+void LinkedList::insertAtPos(Node *&newNode, uint index)
 {
     Node *currNode = head;
     int i = 0;
@@ -200,7 +203,7 @@ void LinkedList::insertAtPos(Node *&newNode, unsigned int index)
 
 /* REMOVALS METHODS */
 
-Data LinkedList::removeNode(unsigned int index)
+Data LinkedList::removeNode(uint index)
 {
     Data data{};
     // Empty list case
@@ -282,11 +285,11 @@ Data LinkedList::removeFromInit()
     return data;
 }
 
-Data LinkedList::removeFromPos(unsigned int idx)
+Data LinkedList::removeFromPos(uint idx)
 {
     Node *currNode = head;
     Node *nextNode = head->next;
-    unsigned int i = 0;
+    uint i = 0;
     // Iterate through nodes until previous node
     while (i < idx-1) {
         currNode = currNode->next;
@@ -312,11 +315,11 @@ Data LinkedList::removeFromPos(unsigned int idx)
 int main()
 {
     /* MY DATA */
-    Data data0{0, "Zero ground"};
-    Data data1{1, "First data"};
-    Data data2{2, "Second data"};
-    Data data3{3, "Third data"};
-    Data data4{4, "Something generic"};
+    Data data0{"Zero ground", 0};
+    Data data1{"First data", 1};
+    Data data2{"Second data", 2};
+    Data data3{"Third data", 3};
+    Data data4{"Something generic", 4};
 
     /* LINKED LIST */
     LinkedList llist = LinkedList();

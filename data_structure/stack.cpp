@@ -2,32 +2,35 @@
 #include <string>
 
 
+typedef unsigned int uint;
+
+
 /*** DESCRIPTION ***/
 
-template <typename T, unsigned int max=10>      // Define MAX with template because we cannot define array lenght during constructor
+template <typename T, uint max=10>      // Define MAX with template because we cannot define array lenght during constructor
 class Stack
 {
-private:
-    T arr[max];
-    unsigned int height;
-public:
-    Stack () : height(0), arr{} {};
+ public:
+    Stack () : arr{}, height(0) {};
     ~Stack () {};                           // Template is not repeatede during for definition inside the description scope.
 
     bool isEmpty() { return (height == 0); };
     bool isFull() { return (height == max); };
-    unsigned int getSize() { return height; };
+    uint getSize() { return height; };
 
     void print();
     bool push(const T& item);
     T    pop();
     T    peek();
+ private:
+    T arr[max];
+    uint height;
 };
 
 
 /*** DEFINITION ***/
 
-template <typename T, unsigned int max>
+template <typename T, uint max>
 void Stack<T, max>::print()
 {
     if (isEmpty()){
@@ -43,7 +46,7 @@ void Stack<T, max>::print()
 }
 
 
-template <typename T, unsigned int max>     // Template must be repetade during definition outside descripiton scope.
+template <typename T, uint max>     // Template must be repetade during definition outside descripiton scope.
 bool Stack<T, max>::push(const T& item)
 {
     bool ret;
@@ -61,7 +64,7 @@ bool Stack<T, max>::push(const T& item)
 }
 
 
-template <typename T, unsigned int max>
+template <typename T, uint max>
 T Stack<T, max>::pop()
 {
     T item{};
@@ -78,7 +81,7 @@ T Stack<T, max>::pop()
 }
 
 
-template <typename T, unsigned int max>
+template <typename T, uint max>
 T Stack<T, max>::peek()
 {
     T item{};

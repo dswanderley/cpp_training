@@ -6,14 +6,13 @@ struct Item {
 };
 
 
-
 class ArraySimple {
 
     private:
-        /* List current length */
-        unsigned int length;
         /* Pointer to list */
         Item *list;
+        /* List current length */
+        unsigned int length;
 
     protected:
         /** Print list function **/
@@ -88,7 +87,7 @@ class ArraySimple {
 
     public:
         /** Constructor **/
-        ArraySimple() : length(0), list{} {}
+        ArraySimple() : list{}, length(0) {}
 
         /**
          * Insert an item at the end of the list.
