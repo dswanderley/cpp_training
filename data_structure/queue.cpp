@@ -8,25 +8,25 @@ typedef unsigned int uint;
 template<class T, uint size=10>
 class Queue
 {
-private:
+ public:
+    Queue() : queue{}, length(0) {}
+    ~Queue() {}
+
+    bool isEmpty() const { return (length == 0); }
+    bool isFull() const { return (length == size); }
+    T lookFirst() const { return queue[0]; }
+
+    T& operator[](uint index) const;
+    void print() const;
+
+ private:
     std::array<T, size> queue;
     uint length;
-public:
-    Queue() : length(0), queue{} {};
-    ~Queue() {};
-
-    bool isEmpty() { return (length == 0); };
-    bool isFull() { return (length == size); };
-    T lookFirst() { return queue[0]; }
-
-    void print();
-
-    T& operator[](uint index);
 };
 
 
 template<class T, uint size>
-void Queue<T, size>::print()
+void Queue<T, size>::print() const
 {
      if (isEmpty()){
         std::cout << "QUEUE EMPTY";
@@ -41,7 +41,8 @@ void Queue<T, size>::print()
 }
 
 template<class T, uint size>
-T& Queue<T, size>::operator[](uint index) {
+T& Queue<T, size>::operator[](uint index) const
+{
     // Check index
     if (index >= length){
         std::cout << "Array index out of bound.";
