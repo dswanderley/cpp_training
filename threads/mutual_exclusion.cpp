@@ -19,7 +19,7 @@ void fnSource1()
     {
         //g_mtx.lock();
         {
-            std::unique_lock<std::mutex> lock(g_mtx);
+            std::lock_guard<std::mutex> lock(g_mtx);
             g_vector.push_back(1);
         }
         //g_mtx.unlock();
