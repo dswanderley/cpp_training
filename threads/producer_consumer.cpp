@@ -52,8 +52,6 @@ void fnSource2()
 
 void fnReader()
 {
-    //std::this_thread::sleep_for(1s);
-
     while (runing)
     {
         // Lock mutex inside this scope
