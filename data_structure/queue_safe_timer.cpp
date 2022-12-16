@@ -148,6 +148,7 @@ int main()
 {
     Queue<int, 100> queue;
     std::atomic_bool running{true};
+    std::mutex mtx_print;
 
     int c1=0, c2=0;
 
@@ -155,7 +156,11 @@ int main()
         while (running)
         {
             auto item = queue.pop_safe();
-            std::cout << "Client1 -> "<< item << std::endl;
+            // Safe guard print out
+            {
+                std::lock_guard<std::mutex> lock(mtx_print);
+                std::cout << "Client1 -> "<< item << std::endl;
+            }
             c1 += item != 0 ? 1 : 0;
             std::this_thread::sleep_for(201ms);
         }
@@ -164,10 +169,14 @@ int main()
     std::thread client2 ([&] {
         while (running)
         {
-            std::this_thread::sleep_for(300ms);
+            std::this_thread::sleep_for(200ms);
             auto item = queue.pop_safe();
             c2 += item != 0 ? 1 : 0;
-            std::cout << "Client2 -> "<< item << std::endl;
+            // Safe guard print out
+            {
+                std::lock_guard<std::mutex> lock(mtx_print);
+                std::cout << "Client2 -> "<< item << std::endl;
+            }
         }
     });
 
