@@ -2,6 +2,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <mutex>
 #include <condition_variable>
 
 #define MAX_SIZE 1000
