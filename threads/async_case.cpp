@@ -44,7 +44,6 @@ int function2()
 
 int main()
 {
-
     // Define functions
     std::future<int> fcn1, fcn2;
     fcn1 = std::async(&function1);
