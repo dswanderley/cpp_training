@@ -68,21 +68,22 @@ void fnReader(std::vector<int>& vector, std::mutex& mtx, std::condition_variable
 
 int main()
 {
+    // Start variables
     std::thread thread1, thread2, thread3;
     std::atomic_bool runing{true};
     std::mutex mtx;
     std::condition_variable cond;
-
-    std::vector<int> vector;
+    std::vector<int> vector;                // Target vector
 
     thread3 = std::thread(&fnReader,  std::ref(vector), std::ref(mtx), std::ref(cond), std::ref(runing));
     thread1 = std::thread(&fnSource1, std::ref(vector), std::ref(mtx), std::ref(cond));
     thread2 = std::thread(&fnSource2, std::ref(vector), std::ref(mtx), std::ref(cond));
 
-
+    // Wait vector filling
     std::this_thread::sleep_for(2s);
     runing = false;
 
+    // Conclude threads
     thread3.join();
     thread1.detach();
     thread2.detach();
