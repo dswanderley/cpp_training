@@ -53,7 +53,7 @@ int main()
     thread1.join();
     thread2.join();
 
-    int c1, c2 = 0;
+    int c1 = 0, c2 = 0;
 
     for (int i = 0; i < g_vector.size(); i++)
     {

@@ -54,7 +54,7 @@ int main()
     int n = 0;
     foo f;
     baz b;
-    std::thread t1; // t1 is not a thread
+    // std::thread t1; // t1 is not a thread
     std::thread t2(f1, n + 1); // pass by value
     std::thread t3(f2, std::ref(n)); // pass by reference
     std::thread t4(std::move(t3)); // t4 is now running f2(). t3 is no longer a thread
