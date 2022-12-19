@@ -4,7 +4,7 @@
 #include <atomic>
 #include <thread>
 #include <mutex>
-#include <future>
+#include <condition_variable>
 
 using namespace std::chrono;
 
@@ -26,6 +26,8 @@ class ParallelSum
     std::vector<uint> vecData;
     uint nThreads;
     std::atomic_bool waiting{true};
+    std::mutex mtx;
+    std::condition_variable cond;
 
     void startThreads();
 };
@@ -41,10 +43,16 @@ ParallelSum::~ParallelSum()
 
 void ParallelSum::sumFcn(uint start, uint end)
 {
-    while (waiting)
+    // Wait for waiting false
     {
-        /* code */
+        // unique_lock prevents mutex from getting locked in case of exception
+        std::unique_lock<std::mutex> lock(mtx);
+        cond.wait(lock, [this]() -> bool
+        {
+            return (!waiting);
+        });
     }
+
 }
 
 void ParallelSum::startThreads()
@@ -64,7 +72,6 @@ void ParallelSum::startThreads()
 
         vecThreads.push_back(std::thread(&ParallelSum::sumFcn, this, start, end));
     }
-
 }
 
 void ParallelSum::join()
@@ -75,7 +82,13 @@ void ParallelSum::join()
 void ParallelSum::run()
 {
     // All threads are running but waiting.
-    waiting = false;
+    {
+        // unique_lock prevents mutex from getting locked in case of exception
+        std::unique_lock<std::mutex> lock(mtx);
+        waiting = false;
+    }
+    // Alert all that mutex was released
+    cond.notify_all();
 }
 
 
