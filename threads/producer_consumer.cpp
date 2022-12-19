@@ -45,7 +45,7 @@ void fnSource2(std::vector<int>& vector, std::mutex& mtx, std::condition_variabl
     }
 }
 
-void fnReader(std::vector<int>& vector, std::mutex& mtx, std::condition_variable& cond, std::atomic_bool& runing)
+void fnReader(std::vector<int>& vector, std::mutex& mtx, std::condition_variable& cond, const std::atomic_bool& runing)
 {
     while (runing)
     {
