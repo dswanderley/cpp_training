@@ -139,7 +139,7 @@ int main()
 
 
     auto tTotal = duration_cast<milliseconds>(t3-t0);
-    auto tSum = duration_cast<milliseconds>(t1-t2);
+    auto tSum = duration_cast<milliseconds>(t2-t1);
 
 
     std::cout << "Sum result: " << pSum.getSum() << "   |   ";
