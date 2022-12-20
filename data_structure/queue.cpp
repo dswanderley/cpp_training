@@ -58,7 +58,7 @@ T Queue<T, size>::pop()
         length--;
     }
 
-    return std::move(item);
+    return item;
 }
 
 template<class T, uint size>
@@ -107,7 +107,6 @@ int main()
     //queue.push(i++);
 
     while (!queue.isEmpty()) {
-        bool empty = queue.isEmpty();
         auto item = queue.pop();
         std::cout << "Value " << item << " popped." << std::endl;
         queue.print();
