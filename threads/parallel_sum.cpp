@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <algorithm>
 #include <vector>
 #include <chrono>
@@ -25,7 +26,7 @@ class ParallelSum
     bool getFinish() const;
 
   private:
-    std::vector<uint> vecData;
+    const std::vector<uint> vecData;
     std::vector<bool> vecFinish;
     std::vector<std::thread> vecThreads;
     uint nThreads;
@@ -109,7 +110,6 @@ void ParallelSum::run()
     cond.notify_all();
 }
 
-
 bool ParallelSum::getFinish() const
 {
     bool res = std::all_of(vecFinish.begin(), vecFinish.end(), [](bool v) { return v; });
@@ -119,32 +119,39 @@ bool ParallelSum::getFinish() const
 
 int main()
 {
+    // Initial variables
+    uint len = 12;          // Array size
+    uint maxThreads = std::thread::hardware_concurrency();
 
-    uint len = 12;
-
-    auto t0 = high_resolution_clock::now();
-    ParallelSum pSum(len, 5);
-
-    auto t1 = high_resolution_clock::now();
-    pSum.run();
-
-    while (pSum.getFinish())
+    // Iterate for different number of threads
+    for (uint nThds = 1; nThds <= maxThreads; nThds++)
     {
-        ;
+        // Start threads
+        auto t0 = high_resolution_clock::now();
+        ParallelSum pSum(len, nThds);
+
+        // Start to sum
+        auto t1 = high_resolution_clock::now();
+        pSum.run();
+
+        // Wait for threads sum
+        while (pSum.getFinish()) { ; }
+        auto t2 = high_resolution_clock::now();
+
+        // Close threads
+        pSum.join();
+        auto t3 = high_resolution_clock::now();
+
+        // Calculate processes duration
+        auto tTotal = duration_cast<milliseconds>(t3-t0);
+        auto tSum = duration_cast<milliseconds>(t2-t1);
+
+        // Print results
+        std::cout << "Number of threads: " << std::setw(2) << std::setfill(' ') << nThds << "   |   ";
+        std::cout << "Sum result: " << pSum.getSum() << "   |   ";
+        std::cout << "Summation time: " << tSum.count() << " ms" << "   |   ";
+        std::cout << "Total time: " << tTotal.count() << " ms" << std::endl;
     }
-    auto t2 = high_resolution_clock::now();
-
-    pSum.join();
-    auto t3 = high_resolution_clock::now();
-
-
-    auto tTotal = duration_cast<milliseconds>(t3-t0);
-    auto tSum = duration_cast<milliseconds>(t2-t1);
-
-
-    std::cout << "Sum result: " << pSum.getSum() << "   |   ";
-    std::cout << "sum time: " << tSum.count() << " ms" << "   |   ";
-    std::cout << "total time: " << tTotal.count() << " ms";
 
     return 0;
 
