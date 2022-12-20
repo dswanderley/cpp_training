@@ -15,18 +15,17 @@ typedef unsigned int uint;
 
 class ParallelSum
 {
-
   public:
-    ParallelSum(uint lenght, uint nT);
+    ParallelSum(const std::vector<uint64_t>& vec, uint nT);
     ~ParallelSum();
-    void sumFcn(uint start, uint end, uint thd_idx);
+
     void join();
     void run();
-    int64_t getSum() { return totalSum; }
+    int64_t getSum() const { return totalSum; }
     bool getFinish() const;
 
   private:
-    const std::vector<uint> vecData;
+    const std::vector<uint64_t> vecData;
     std::vector<bool> vecFinish;
     std::vector<std::thread> vecThreads;
     uint nThreads;
@@ -35,11 +34,12 @@ class ParallelSum
     std::mutex mtx;
     std::condition_variable cond;
 
+    void sumFcn(uint start, uint end, uint thd_idx);
     void startThreads();
 };
 
-ParallelSum::ParallelSum(uint length, uint nT) :
-    vecData(length, 1), nThreads(nT),
+ParallelSum::ParallelSum(const std::vector<uint64_t>& vec, uint nT) :
+    vecData(vec), nThreads(nT),
     vecFinish(nT, false), totalSum{0}, waiting{true}
 {
     startThreads();
@@ -117,25 +117,27 @@ bool ParallelSum::getFinish() const
     return res;
 }
 
+
 int main()
 {
     // Initial variables
-    uint len = 12;          // Array size
+    uint64_t len = 1'000'000'000;          // Array size
     uint maxThreads = std::thread::hardware_concurrency();
+    std::vector<uint64_t> data(len, 1);
 
     // Iterate for different number of threads
     for (uint nThds = 1; nThds <= maxThreads; nThds++)
     {
         // Start threads
         auto t0 = high_resolution_clock::now();
-        ParallelSum pSum(len, nThds);
+        ParallelSum pSum(data, nThds);
 
         // Start to sum
         auto t1 = high_resolution_clock::now();
         pSum.run();
 
         // Wait for threads sum
-        while (pSum.getFinish()) { ; }
+        while (!pSum.getFinish()) { ; }
         auto t2 = high_resolution_clock::now();
 
         // Close threads
@@ -149,10 +151,9 @@ int main()
         // Print results
         std::cout << "Number of threads: " << std::setw(2) << std::setfill(' ') << nThds << "   |   ";
         std::cout << "Sum result: " << pSum.getSum() << "   |   ";
-        std::cout << "Summation time: " << tSum.count() << " ms" << "   |   ";
-        std::cout << "Total time: " << tTotal.count() << " ms" << std::endl;
+        std::cout << "Summation time: " << std::setw(4) << std::setfill(' ') << tSum.count() << " ms" << "   |   ";
+        std::cout << "Total time: " << std::setw(5) << std::setfill(' ') << tTotal.count() << " ms" << std::endl;
     }
 
     return 0;
-
 }
