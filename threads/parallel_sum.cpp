@@ -123,25 +123,26 @@ int main()
     // Initial variables
     uint64_t len = 1'000'000'000;          // Array size
     uint maxThreads = std::thread::hardware_concurrency();
-    std::vector<uint64_t> data(len, 1);
+    // Create vector in the heap
+    std::shared_ptr< std::vector<uint64_t> > data_ptr( new std::vector<uint64_t>(len, 1));
 
     // Iterate for different number of threads
     for (uint nThds = 1; nThds <= maxThreads; nThds++)
     {
         // Start threads
         auto t0 = high_resolution_clock::now();
-        ParallelSum pSum(data, nThds);
+        ParallelSum* pSum_ptr = new ParallelSum(*data_ptr, nThds);
 
         // Start to sum
         auto t1 = high_resolution_clock::now();
-        pSum.run();
+        pSum_ptr->run();
 
         // Wait for threads sum
-        while (!pSum.getFinish()) { ; }
+        while (!pSum_ptr->getFinish()) { ; }
         auto t2 = high_resolution_clock::now();
 
         // Close threads
-        pSum.join();
+        pSum_ptr->join();
         auto t3 = high_resolution_clock::now();
 
         // Calculate processes duration
@@ -150,7 +151,7 @@ int main()
 
         // Print results
         std::cout << "Number of threads: " << std::setw(2) << std::setfill(' ') << nThds << "   |   ";
-        std::cout << "Sum result: " << pSum.getSum() << "   |   ";
+        std::cout << "Sum result: " << pSum_ptr->getSum() << "   |   ";
         std::cout << "Summation time: " << std::setw(4) << std::setfill(' ') << tSum.count() << " ms" << "   |   ";
         std::cout << "Total time: " << std::setw(5) << std::setfill(' ') << tTotal.count() << " ms" << std::endl;
     }
