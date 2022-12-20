@@ -154,6 +154,8 @@ int main()
         std::cout << "Sum result: " << pSum_ptr->getSum() << "   |   ";
         std::cout << "Summation time: " << std::setw(4) << std::setfill(' ') << tSum.count() << " ms" << "   |   ";
         std::cout << "Total time: " << std::setw(5) << std::setfill(' ') << tTotal.count() << " ms" << std::endl;
+
+        delete pSum_ptr;
     }
 
     return 0;
