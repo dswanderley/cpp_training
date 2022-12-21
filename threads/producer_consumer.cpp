@@ -11,14 +11,14 @@
 using namespace std::chrono_literals;
 
 
-void fnSource1(std::vector<int>& vector, std::mutex& mtx, std::condition_variable& cond)
+void fnSource1(std::vector<int>* const vector, std::mutex& mtx, std::condition_variable& cond)
 {
-    while (vector.size() < MAX_SIZE)
+    while (vector->size() < MAX_SIZE)
     {
         // Lock mutex
         std::unique_lock<std::mutex> lock(mtx);
         // Update vector
-        vector.push_back(1);
+        vector->push_back(1);
         // Unlock mutex
         lock.unlock();
         // Notify all threads
@@ -29,14 +29,14 @@ void fnSource1(std::vector<int>& vector, std::mutex& mtx, std::condition_variabl
 }
 
 
-void fnSource2(std::vector<int>& vector, std::mutex& mtx, std::condition_variable& cond)
+void fnSource2(std::vector<int>* const vector, std::mutex& mtx, std::condition_variable& cond)
 {
-    while (vector.size() < MAX_SIZE)
+    while (vector->size() < MAX_SIZE)
     {
         // Lock mutex inside this scope
         {
             std::unique_lock<std::mutex> lock(mtx);
-            vector.push_back(2);
+            vector->push_back(2);
         }
         // Notify all threads
         cond.notify_all();
@@ -45,17 +45,17 @@ void fnSource2(std::vector<int>& vector, std::mutex& mtx, std::condition_variabl
     }
 }
 
-void fnReader(std::vector<int>& vector, std::mutex& mtx, std::condition_variable& cond, const std::atomic_bool& runing)
+void fnReader(std::vector<int>* const vector, std::mutex& mtx, std::condition_variable& cond, const std::atomic_bool& runing)
 {
     while (runing)
     {
         // Lock mutex inside this scope
         {
             std::unique_lock<std::mutex> lock(mtx);
-            if (!vector.empty())
+            if (!vector->empty())
             {
-                const int i = vector.back();
-                vector.pop_back();
+                const int i = vector->back();
+                vector->pop_back();
 
                 std::cout << i << std::endl;
             }
@@ -73,11 +73,11 @@ int main()
     std::atomic_bool runing{true};
     std::mutex mtx;
     std::condition_variable cond;
-    std::vector<int> vector;                // Target vector
+    std::vector<int>* vector = new std::vector<int>();                // Target vector
 
-    thread3 = std::thread(&fnReader,  std::ref(vector), std::ref(mtx), std::ref(cond), std::ref(runing));
-    thread1 = std::thread(&fnSource1, std::ref(vector), std::ref(mtx), std::ref(cond));
-    thread2 = std::thread(&fnSource2, std::ref(vector), std::ref(mtx), std::ref(cond));
+    thread3 = std::thread(&fnReader,  vector, std::ref(mtx), std::ref(cond), std::ref(runing));
+    thread1 = std::thread(&fnSource1, vector, std::ref(mtx), std::ref(cond));
+    thread2 = std::thread(&fnSource2, vector, std::ref(mtx), std::ref(cond));
 
     // Wait vector filling
     std::this_thread::sleep_for(2s);
@@ -88,7 +88,9 @@ int main()
     thread1.detach();
     thread2.detach();
 
-    std::cout << "Vector size: " <<  vector.size() << std::endl;
+    std::cout << "Vector size: " <<  vector->size() << std::endl;
+
+    delete vector;
 
     return 0;
 }
