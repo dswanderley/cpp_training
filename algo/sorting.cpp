@@ -155,17 +155,13 @@ int main()
         printVector(sdata2);
 
         std::vector<int> dst(sdata1);
-        /*std::merge( sdata1.begin(), sdata1.end(),
-                    sdata2.begin(), sdata2.end(),
-                     std::back_inserter(dst) );*/
-
         dst.insert(dst.end(), sdata2.begin(), sdata2.end());
+        std::cout << "Non sorted merge" << std::endl;
+        printVector(dst);
 
-        //auto mid = dst.begin() + (dst.end() + dst.begin())/2;
-
-        //std::inplace_merge(dst.begin(), mid, dst.end());
-
-        //printVector(sdata1);
+        auto mid = dst.begin() + (dst.end() - dst.begin())/2;
+        std::cout << "Final merge" << std::endl;
+        std::inplace_merge(dst.begin(), mid, dst.end());
         printVector(dst);
     }
 
