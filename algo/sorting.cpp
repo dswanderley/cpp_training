@@ -135,5 +135,39 @@ int main()
     }
     std::cout << std::endl;
 
+    /*
+     * INPLACE MERGE
+     * Merges two ordered ranges in-place
+     */
+    std::cout << "6) Inplace Merge" << std::endl;
+    {
+        auto m = data.size() / 2;
+
+        std::vector<int> sdata1( data.begin(), data.begin() + m );
+        std::vector<int> sdata2( data.begin() + m, data.end() );
+
+        std::cout << "Part 1" << std::endl;
+        std::sort( sdata1.begin(), sdata1.end() );
+        printVector(sdata1);
+
+        std::cout << "Part 2" << std::endl;
+        std::sort( sdata2.begin(), sdata2.end() );
+        printVector(sdata2);
+
+        std::vector<int> dst(sdata1);
+        /*std::merge( sdata1.begin(), sdata1.end(),
+                    sdata2.begin(), sdata2.end(),
+                     std::back_inserter(dst) );*/
+
+        dst.insert(dst.end(), sdata2.begin(), sdata2.end());
+
+        //auto mid = dst.begin() + (dst.end() + dst.begin())/2;
+
+        //std::inplace_merge(dst.begin(), mid, dst.end());
+
+        //printVector(sdata1);
+        printVector(dst);
+    }
+
     return 0;
 }
