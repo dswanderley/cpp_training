@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
+#include <string>
 #include <vector>
 #include <stdint.h>
 
@@ -87,6 +88,9 @@ int main()
         tf = rdtsc();
 
         printVector(sdata);
+        auto sorted_end = std::is_sorted_until(sdata.begin(), sdata.end());
+        int sorted_size = std::distance(sdata.begin(), sorted_end);
+        std::cout << "Is sorted until: " << sorted_size << std::endl;
         printrRDTSC(t0, tf);
     }
     std::cout << std::endl;
@@ -105,6 +109,9 @@ int main()
         tf = rdtsc();
 
         printVector(sdata);
+        auto sorted_end = std::is_sorted_until(sdata.begin(), sdata.end());
+        int sorted_size = std::distance(sdata.begin(), sorted_end);
+        std::cout << "Is sorted until: " << sorted_size << std::endl;
         printrRDTSC(t0, tf);
     }
 
@@ -116,6 +123,9 @@ int main()
         tf = rdtsc();
 
         printVector(sdata);
+        auto sorted_end = std::is_sorted_until(sdata.begin(), sdata.end());
+        int sorted_size = std::distance(sdata.begin(), sorted_end);
+        std::cout << "Is sorted until: " << sorted_size << std::endl;
         printrRDTSC(t0, tf);
     }
 
@@ -131,6 +141,9 @@ int main()
         tf = rdtsc();
 
         printVector(sdata);
+        auto sorted_end = std::is_sorted_until(sdata.begin(), sdata.end());
+        int sorted_size = std::distance(sdata.begin(), sorted_end);
+        std::cout << "Is sorted until: " << sorted_size << std::endl;
         printrRDTSC(t0, tf);
     }
     std::cout << std::endl;
