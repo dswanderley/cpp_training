@@ -43,6 +43,22 @@ namespace algo {
     }
 
     /**
+     * @brief Insertion sort.
+     *
+     * @tparam Iter Vector iterator
+     * @param first First vector index to be sorted
+     * @param last Last vector index to be sorted
+     */
+    template<class Iter>
+    void insertionSort(Iter first, Iter last)
+    {
+        std::iter_swap(first, std::min_element(first, last));
+        for (Iter key = first; ++key < last; first = key)
+            for (Iter elem = key; *elem < *first; --elem, --first)
+                std::iter_swap(first, elem);
+    }
+
+    /**
      * @brief Print a vector
      *
      * @tparam T Vector type
