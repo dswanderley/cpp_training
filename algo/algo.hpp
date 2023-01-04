@@ -8,25 +8,6 @@
 namespace algo {
 
     /**
-     * @brief Merge sort algorithm.
-     *
-     * @tparam Iter Vector iterator
-     * @param first First vector index to be sorted
-     * @param last Last vector index to be sorted
-     */
-    template<class Iter>
-    void mergeSort(Iter first, Iter last)
-    {
-        if (last - first > 1)
-        {
-            Iter middle = first + (last - first) / 2;
-            mergeSort(first, middle);
-            mergeSort(middle, last);
-            std::inplace_merge(first, middle, last);
-        }
-    };
-
-    /**
      * @brief  Bubble Sort algorithm.
      * Bubble Sort is the simplest sorting algorithm that works by repeatedly
      * swapping the adjacent elements if they are in the wrong order.
@@ -89,6 +70,8 @@ namespace algo {
      * Based on the divide and conquer paradigm, tt picks an element as a pivot
      *  and partitions the given array around the picked pivot. The key process
      *  in quickSort is the partition.
+     * Preferred over Merge Sort for sorting arrays, once can make use of
+     *  array's index to perform in-place sort.
      *
      * @tparam Iter Vector iterator
      * @param first First vector index to be sorted
@@ -114,6 +97,31 @@ namespace algo {
             std::iter_swap(first, middle-1);
             quickSort(first, middle-1);
             quickSort(middle, last);
+        }
+    }
+
+    /**
+     * @brief Merge Sort algorithm.
+     * It is based on the divide and conquer paradigm. In this algorithm, the
+     *  array is initially divided into two equal halves and then they are
+     *  combined in a sorted manner.
+     * Preferred over Quick Sort for sorting linked lists, once we can insert
+     *  items in the middle and merge sort does not demand extar spaces for
+     *  linked lists.
+     *
+     * @tparam Iter Vector iterator
+     * @param first First vector index to be sorted
+     * @param last Last vector index to be sorted
+     */
+    template<class Iter>
+    void mergeSort(Iter first, Iter last)
+    {
+        if (last - first > 1)
+        {
+            Iter middle = first + (last - first) / 2;
+            mergeSort(first, middle);
+            mergeSort(middle, last);
+            std::inplace_merge(first, middle, last);
         }
     }
 
