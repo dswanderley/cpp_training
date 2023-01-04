@@ -85,6 +85,39 @@ namespace algo {
     }
 
     /**
+     * @brief Quick Sort
+     * Based on the divide and conquer paradigm, tt picks an element as a pivot
+     *  and partitions the given array around the picked pivot. The key process
+     *  in quickSort is the partition.
+     *
+     * @tparam Iter Vector iterator
+     * @param first First vector index to be sorted
+     * @param last Last vector index to be sorted
+     */
+    template<class Iter>
+    void quickSort(Iter first, Iter last)
+    {
+        if (first < last)
+        {
+            // Partition
+            Iter middle = first + 1;
+            for (Iter el = first + 1; el < last; el++)
+            {
+                if (*el < *first) // Compare with pivot
+                {
+                    std::iter_swap(el, middle);
+                    middle++;
+                }
+            }
+            // Separately sort elements before
+            // partition and after partition
+            std::iter_swap(first, middle-1);
+            quickSort(first, middle-1);
+            quickSort(middle, last);
+        }
+    }
+
+    /**
      * @brief Print a vector
      *
      * @tparam T Vector type
