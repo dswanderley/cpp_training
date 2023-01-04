@@ -26,7 +26,13 @@ namespace algo {
         }
     };
 
-
+    /**
+     * @brief  Bubble Sort algorithm.
+     *
+     * @tparam Iter Vector iterator
+     * @param first First vector index to be sorted
+     * @param last Last vector index to be sorted
+     */
     template<class Iter>
     void bubbleSort(Iter first, Iter last)
     {
@@ -36,7 +42,12 @@ namespace algo {
                     std::iter_swap(ptr_i, ptr_j);
     }
 
-
+    /**
+     * @brief Print a vector
+     *
+     * @tparam T Vector type
+     * @param vec Vector
+     */
     template<class T>
     static void printVector(const std::vector<T>& vec)
     {
