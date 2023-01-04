@@ -7,6 +7,13 @@
 
 namespace algo {
 
+    /**
+     * @brief Merge sort algorithm.
+     *
+     * @tparam Iter Vector iterator
+     * @param first First vector index to be sorted
+     * @param last Last vector index to be sorted
+     */
     template<class Iter>
     void mergeSort(Iter first, Iter last)
     {
@@ -20,9 +27,18 @@ namespace algo {
     };
 
 
+    template<class Iter>
+    void bubbleSort(Iter first, Iter last)
+    {
+        for (auto ptr_i = first; ptr_i < last; ptr_i++)
+            for (auto ptr_j = ptr_i; ptr_j < last; ptr_j++)
+                if (*ptr_i > *ptr_j)
+                    std::iter_swap(ptr_i, ptr_j);
+    }
 
 
-    static void printVector(const std::vector<int>& vec)
+    template<class T>
+    static void printVector(const std::vector<T>& vec)
     {
         for (const auto& item : vec)
             std::cout << item << " | ";
