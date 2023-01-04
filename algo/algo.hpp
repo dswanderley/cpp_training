@@ -61,10 +61,27 @@ namespace algo {
     template<class Iter>
     void insertionSort(Iter first, Iter last)
     {
-        std::iter_swap(first, std::min_element(first, last));
+        std::iter_swap(first, std::min_element(first, last)); // pick the smallest element in the range and swap
         for (Iter key = first; ++key < last; first = key)
             for (Iter elem = key; *elem < *first; --elem, --first)
                 std::iter_swap(first, elem);
+    }
+
+    /**
+     * @brief Selection sort algorthim
+     * The selection sort algorithm sorts an array by repeatedly finding the
+     *  minimum element (considering ascending order) from the unsorted part
+     *  and putting it at the beginning.
+     *
+     * @tparam Iter Vector iterator
+     * @param first First vector index to be sorted
+     * @param last Last vector index to be sorted
+     */
+    template<class Iter>
+    void selectionSort(Iter first, Iter last)
+    {
+        for(Iter el = first; el != last; el++)
+            std::iter_swap(el, std::min_element(el, last)); // pick the smallest element in the range and swap
     }
 
     /**
