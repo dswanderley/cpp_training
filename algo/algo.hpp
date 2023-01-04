@@ -28,6 +28,10 @@ namespace algo {
 
     /**
      * @brief  Bubble Sort algorithm.
+     * Bubble Sort is the simplest sorting algorithm that works by repeatedly
+     * swapping the adjacent elements if they are in the wrong order.
+     * This algorithm is not suitable for large data sets as its average and
+     * worst-case time complexity is quite high.
      *
      * @tparam Iter Vector iterator
      * @param first First vector index to be sorted
@@ -44,6 +48,11 @@ namespace algo {
 
     /**
      * @brief Insertion sort.
+     * This algorithm is one of the simplest algorithm with simple implementation
+     * The array is virtually split into a sorted and an unsorted part.
+     * Values from the unsorted part are picked and placed at the correct
+     * position in the sorted part.
+     * It is appropriate for data sets which are already partially sorted.
      *
      * @tparam Iter Vector iterator
      * @param first First vector index to be sorted
