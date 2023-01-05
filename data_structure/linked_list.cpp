@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <iomanip>      // std::setfill, std::setw
 #include <string>
@@ -36,18 +37,20 @@ private:
     Node *tail;
     uint length;
 
-    void startList(Node *&newNode);
-    void insertAtInit(Node *&newNode);
-    void insertAtEnd(Node *&newNode);
-    void insertAtPos(Node *&newNode, uint index);
+    void startList(Node*& newNode);
+    void insertAtInit(Node*& newNode);
+    void insertAtEnd(Node*& newNode);
+    void insertAtPos(Node*& newNode, uint index);
 
     Data removeSingle();
     Data removeFromInit();
     Data removeFromEnd();
     Data removeFromPos(uint index);
 
+    static void advance(Node*& node);
+
 protected:
-    void addNode(const Data &data, uint index);
+    void addNode(const Data& data, uint index);
     Data removeNode(uint index);
 
 public:
@@ -142,7 +145,7 @@ void LinkedList::print() const
 
 /* INSERTIONS METHODS */
 
-void LinkedList::addNode(const Data &data, uint index)
+void LinkedList::addNode(const Data& data, uint index)
 {
     if (index > length) {
         std::cout << "Invalid position." << std::endl;
@@ -169,37 +172,42 @@ void LinkedList::addNode(const Data &data, uint index)
     length++;
 }
 
-void LinkedList::startList(Node *&newNode)
+void LinkedList::startList(Node*& newNode)
 {
     head = newNode;
     tail = newNode;
 }
 
-void LinkedList::insertAtInit(Node *&newNode)
+void LinkedList::insertAtInit(Node*& newNode)
 {
     newNode->next = head;
     head = newNode;
 }
 
-void LinkedList::insertAtEnd(Node *&newNode)
+void LinkedList::insertAtEnd(Node*& newNode)
 {
     tail->next = newNode;
     tail = newNode;
 }
 
-void LinkedList::insertAtPos(Node *&newNode, uint index)
+void LinkedList::insertAtPos(Node*& newNode, uint index)
 {
     Node *currNode = head;
     int i = 0;
     while (i < index-1)
     {
-        currNode = currNode->next;
+        advance(currNode);
         i++;
     }
     newNode->next = currNode->next;
     currNode->next = newNode;
 }
 
+void LinkedList::advance(Node*& node)
+{
+    assert(node != nullptr);
+    node = node->next;
+}
 
 /* REMOVALS METHODS */
 
@@ -258,7 +266,7 @@ Data LinkedList::removeFromEnd()
     while (nextNode->next != nullptr)
     {
         currNode = nextNode;
-        nextNode = nextNode->next;
+        advance(nextNode);
     }
     // Get next (tail) data
     Data data = nextNode->data;
@@ -292,7 +300,7 @@ Data LinkedList::removeFromPos(uint idx)
     uint i = 0;
     // Iterate through nodes until previous node
     while (i < idx-1) {
-        currNode = currNode->next;
+        advance(currNode);
         nextNode = currNode->next;
         i++;
     }
