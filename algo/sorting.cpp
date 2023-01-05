@@ -15,10 +15,6 @@ void printVector(const std::vector<int>& vec)
 }
 
 
-
-
-
-
 int main()
 {
     const int maxVal = 100;
