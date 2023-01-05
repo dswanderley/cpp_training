@@ -14,6 +14,13 @@ struct  Data
 {
     std::string description;
     uint id;
+
+    friend bool operator==(const Data& lhs, const Data& rhs) { return (lhs.id == rhs.id); };
+    friend bool operator>(const Data& lhs, const Data& rhs)  { return (lhs.id > rhs.id); };
+    friend bool operator<(const Data& lhs, const Data& rhs)  { return (lhs.id < rhs.id); };
+    friend bool operator<=(const Data& lhs, const Data& rhs) { return (lhs.id <= rhs.id); };
+    friend bool operator>=(const Data& lhs, const Data& rhs) { return (lhs.id >= rhs.id); };
+    friend bool operator!=(const Data& lhs, const Data& rhs) { return (lhs.id != rhs.id); };
 };
 
 
@@ -48,6 +55,7 @@ private:
     Data removeFromPos(uint index);
 
     static void advance(Node*& node);
+    static Node* merge(Node*& node1, Node*& node2);
 
 protected:
     void addNode(const Data& data, uint index);
@@ -312,6 +320,40 @@ Data LinkedList::removeFromPos(uint idx)
     delete nextNode;
 
     return data;
+}
+
+
+/* SORT MEHTODS */
+
+Node* LinkedList::merge(Node*& node1, Node*& node2)
+{
+    Node* mergedHead = nullptr;
+    Node* currNode = nullptr;
+
+    while (node1 != nullptr && node2 != nullptr)
+    {
+        // Get smallest data and update current node
+        if (node1->data > node2->data)
+        {  // Update current node and node 2
+            currNode->next = node2;
+            advance(node2);
+        }
+        else
+        {  // Update current node and node 1
+            currNode->next = node1;
+            advance(node1);
+        }
+        // Update current node to next
+        advance(currNode);
+    }
+    // In case of node 1 is not empty, complete the list with it
+    if (node1 != nullptr)
+        currNode->next = node1;
+    // In case of node 2 is not empty, complete the list with it
+    if (node2 != nullptr)
+        currNode->next = node2;
+
+    return mergedHead;
 }
 
 
