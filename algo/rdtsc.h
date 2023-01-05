@@ -22,4 +22,10 @@ uint64_t rdtsc()
 
 #endif
 
+void printrRDTSC(const int64_t t0, const int64_t tf)
+{
+    std::cout << "RTSCD: ";     // Read Time-Stamp Counter Diference
+    std::cout << tf-t0 << std::endl;
+}
+
 #endif // RDTSC_H

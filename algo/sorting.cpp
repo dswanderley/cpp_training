@@ -15,11 +15,7 @@ void printVector(const std::vector<int>& vec)
 }
 
 
-void printrRDTSC(int64_t t0, int64_t tf)
-{
-    std::cout << "RTSCD: ";     // Read Time-Stamp Counter Diference
-    std::cout << tf-t0 << std::endl;
-}
+
 
 
 
