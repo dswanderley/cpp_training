@@ -48,6 +48,7 @@ private:
     void insertAtInit(Node*& newNode);
     void insertAtEnd(Node*& newNode);
     void insertAtPos(Node*& newNode, uint index);
+    void updateTail();
 
     Data removeSingle();
     Data removeFromInit();
@@ -55,6 +56,7 @@ private:
     Data removeFromPos(uint index);
 
     static void advance(Node*& node);
+    static Node* take(Node*& node);
     static void split(Node* source, Node*& nodeFront, Node*& nodeEnd);
     static Node* merge(Node*& node1, Node*& node2);
     static void mergeSort(Node*& startNode);
@@ -152,7 +154,7 @@ void LinkedList::print() const
         std::cout << "id: "             << temp->data.id << ", ";
         std::cout << "description: "    << temp->data.description << std::endl;
 
-        temp = temp->next;
+        advance(temp);
     }
 
     std::cout << std::endl;
@@ -216,12 +218,6 @@ void LinkedList::insertAtPos(Node*& newNode, uint index)
     }
     newNode->next = currNode->next;
     currNode->next = newNode;
-}
-
-void LinkedList::advance(Node*& node)
-{
-    assert(node != nullptr);
-    node = node->next;
 }
 
 /* REMOVALS METHODS */
@@ -298,12 +294,8 @@ Data LinkedList::removeFromInit()
 {
     // Get data
     Data data = head->data;
-    // Create a tempNode to be deleted
-    Node *tempNode = head;
     // Set new head
-    head = head->next;
-    // Delete old head
-    delete tempNode;
+    advance(head);
 
     return data;
 }
@@ -345,29 +337,33 @@ void LinkedList::split(Node* source, Node*& nodeFront, Node*& nodeEnd)
             advance(fast);      // and slow one node
         }
     }
-    // Update retur
+    // Update return
     nodeFront = source;
     nodeEnd = slow->next;
-    slow->next = nullptr;
+    slow->next = nullptr;       // Stop first part in the middle
 }
 
 Node* LinkedList::merge(Node*& node1, Node*& node2)
 {
-    Node* mergedHead = nullptr;
-    Node* currNode = nullptr;
+    if (node2 == nullptr)
+        return node1;
+
+    if (node1 == nullptr)
+        return node2;
+
+    Node* mergedHead = (node1->data <= node2->data) ? take(node1) : take(node2);
+    Node* currNode = mergedHead;
 
     while (node1 != nullptr && node2 != nullptr)
     {
         // Get smallest data and update current node
         if (node1->data > node2->data)
         {  // Update current node and node 2
-            currNode->next = node2;
-            advance(node2);
+            currNode->next = take(node2);
         }
         else
         {  // Update current node and node 1
-            currNode->next = node1;
-            advance(node1);
+            currNode->next = take(node1);
         }
         // Update current node to next
         advance(currNode);
@@ -382,11 +378,38 @@ Node* LinkedList::merge(Node*& node1, Node*& node2)
     return mergedHead;
 }
 
-
 void LinkedList::mergeSort(Node*& startNode)
 {
+    if (startNode == nullptr || startNode->next == nullptr)
+        return;
 
+    Node* frontNode;
+    Node* middleNode;
+    // Split list
+    split(startNode, frontNode, middleNode);
+    // Sort the splited lists recursively
+    mergeSort(frontNode);
+    mergeSort(middleNode);
+    // Merge two sorted lists
+    startNode = merge(frontNode, middleNode);
 }
+
+/* AUXILIAR Methods */
+
+void LinkedList::advance(Node*& node)
+{
+    assert(node != nullptr);
+    node = node->next;
+}
+
+Node* LinkedList::take(Node*& node)
+{
+    Node* result = node;
+    advance(node);
+    return result;
+}
+
+
 
 
 /**
@@ -409,19 +432,24 @@ int main()
 
     /* Add data */
 
+    llist.append(data0);
+    llist.print();
+
     llist.append(data1);
     llist.print();
 
-    llist.append(data4);
+    llist.push(data2);
     llist.print();
 
-    llist.push(data0);
+    llist.insertAt(data3, 2);
     llist.print();
 
-    llist.insertAt(data2, 2);
+    llist.insertAt(data4, 3);
     llist.print();
 
-    llist.insertAt(data3, 3);
+    /* Sort list by data */
+
+    llist.sort();
     llist.print();
 
     /* Remove data */
