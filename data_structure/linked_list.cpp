@@ -55,7 +55,9 @@ private:
     Data removeFromPos(uint index);
 
     static void advance(Node*& node);
+    static void split(Node* source, Node*& nodeFront, Node*& nodeEnd);
     static Node* merge(Node*& node1, Node*& node2);
+    static void mergeSort(Node*& startNode);
 
 protected:
     void addNode(const Data& data, uint index);
@@ -119,6 +121,8 @@ public:
      * @return Data removed data
      */
     Data removeFrom(uint idx) { return removeNode(idx); };
+
+    void sort() { mergeSort(head); };
 };
 
 
@@ -149,7 +153,6 @@ void LinkedList::print() const
 
     std::cout << std::endl;
 }
-
 
 /* INSERTIONS METHODS */
 
@@ -322,8 +325,12 @@ Data LinkedList::removeFromPos(uint idx)
     return data;
 }
 
-
 /* SORT MEHTODS */
+
+void LinkedList::split(Node* source, Node*& nodeFront, Node*& nodeEnd)
+{
+
+}
 
 Node* LinkedList::merge(Node*& node1, Node*& node2)
 {
@@ -354,6 +361,12 @@ Node* LinkedList::merge(Node*& node1, Node*& node2)
         currNode->next = node2;
 
     return mergedHead;
+}
+
+
+void LinkedList::mergeSort(Node*& startNode)
+{
+
 }
 
 
