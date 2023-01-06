@@ -122,6 +122,10 @@ public:
      */
     Data removeFrom(uint idx) { return removeNode(idx); };
 
+    /**
+     * @brief Sort list by data using merge sort algorithm.
+     *
+     */
     void sort() { mergeSort(head); };
 };
 
@@ -329,7 +333,22 @@ Data LinkedList::removeFromPos(uint idx)
 
 void LinkedList::split(Node* source, Node*& nodeFront, Node*& nodeEnd)
 {
-
+    Node* fast = source->next;
+    Node* slow = source;
+    /* Iterate through the list to slow ptr achieve the middle. */
+    while (fast != nullptr)
+    {
+        advance(fast);
+        if (fast != nullptr)
+        {
+            advance(slow);      // Advance fast two nodes
+            advance(fast);      // and slow one node
+        }
+    }
+    // Update retur
+    nodeFront = source;
+    nodeEnd = slow->next;
+    slow->next = nullptr;
 }
 
 Node* LinkedList::merge(Node*& node1, Node*& node2)
