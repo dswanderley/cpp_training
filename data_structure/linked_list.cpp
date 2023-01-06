@@ -39,37 +39,12 @@ struct Node
 */
 class LinkedList
 {
-private:
-    Node *head;
-    Node *tail;
-    uint length;
-
-    void startList(Node*& newNode);
-    void insertAtInit(Node*& newNode);
-    void insertAtEnd(Node*& newNode);
-    void insertAtPos(Node*& newNode, uint index);
-    void updateTail();
-
-    Data removeSingle();
-    Data removeFromInit();
-    Data removeFromEnd();
-    Data removeFromPos(uint index);
-
-    static void advance(Node*& node);
-    static Node* take(Node*& node);
-    static void split(Node* source, Node*& nodeFront, Node*& nodeEnd);
-    static Node* merge(Node*& node1, Node*& node2);
-    static void mergeSort(Node*& startNode);
-
-protected:
-    void addNode(const Data& data, uint index);
-    Data removeNode(uint index);
-
-public:
+  public:
     /**
      * Constructor
     */
     LinkedList();
+
     /**
      * Destructor
     */
@@ -128,10 +103,36 @@ public:
      * @brief Sort list by data using merge sort algorithm.
      *
      */
-    void sort() { mergeSort(head); 
-    updateTail(); };
+    void sort() { mergeSort(head); updateTail(); };
+
+  protected:
+    void addNode(const Data& data, uint index);
+    Data removeNode(uint index);
+
+  private:
+    Node *head;
+    Node *tail;
+    uint length;
+
+    void startList(Node*& newNode);
+    void insertAtInit(Node*& newNode);
+    void insertAtEnd(Node*& newNode);
+    void insertAtPos(Node*& newNode, uint index);
+    void updateTail();
+
+    Data removeSingle();
+    Data removeFromInit();
+    Data removeFromEnd();
+    Data removeFromPos(uint index);
+
+    static void advance(Node*& node);
+    static void mergeSort(Node*& startNode);
+    static void split(Node* source, Node*& nodeFront, Node*& nodeEnd);
+    static Node* take(Node*& node);
+    static Node* merge(Node*& node1, Node*& node2);
 };
 
+/* CONSTRUCTOR / DESTRUCTOR */
 
 LinkedList::LinkedList() : head(nullptr), tail(nullptr), length(0)
 {
@@ -322,7 +323,7 @@ Data LinkedList::removeFromPos(uint idx)
     return data;
 }
 
-/* SORT MEHTODS */
+/* SORT METHODS */
 
 void LinkedList::split(Node* source, Node*& nodeFront, Node*& nodeEnd)
 {
@@ -395,7 +396,7 @@ void LinkedList::mergeSort(Node*& startNode)
     startNode = merge(frontNode, middleNode);
 }
 
-/* AUXILIAR Methods */
+/* AUXILIAR METHODS */
 
 void LinkedList::advance(Node*& node)
 {
