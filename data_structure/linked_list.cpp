@@ -128,7 +128,8 @@ public:
      * @brief Sort list by data using merge sort algorithm.
      *
      */
-    void sort() { mergeSort(head); };
+    void sort() { mergeSort(head); 
+    updateTail(); };
 };
 
 
@@ -409,7 +410,17 @@ Node* LinkedList::take(Node*& node)
     return result;
 }
 
-
+void LinkedList::updateTail()
+{
+    Node* curr = head;
+    // Iterate the whole list
+    while (curr->next != nullptr)
+    {
+        advance(curr);
+    }
+    // Update tail
+    tail = curr;
+}
 
 
 /**
@@ -432,9 +443,6 @@ int main()
 
     /* Add data */
 
-    llist.append(data0);
-    llist.print();
-
     llist.append(data1);
     llist.print();
 
@@ -445,6 +453,9 @@ int main()
     llist.print();
 
     llist.insertAt(data4, 3);
+    llist.print();
+
+    llist.append(data0);
     llist.print();
 
     /* Sort list by data */
