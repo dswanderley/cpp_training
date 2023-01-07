@@ -2,26 +2,7 @@
 #include <iostream>
 #include <iomanip>      // std::setfill, std::setw
 #include <string>
-
-
-typedef unsigned int uint;
-
-
-/**
- * Our data
-*/
-struct  Data
-{
-    std::string description;
-    uint id;
-
-    friend bool operator==(const Data& lhs, const Data& rhs) { return (lhs.id == rhs.id); };
-    friend bool operator>(const Data& lhs, const Data& rhs)  { return (lhs.id > rhs.id); };
-    friend bool operator<(const Data& lhs, const Data& rhs)  { return (lhs.id < rhs.id); };
-    friend bool operator<=(const Data& lhs, const Data& rhs) { return (lhs.id <= rhs.id); };
-    friend bool operator>=(const Data& lhs, const Data& rhs) { return (lhs.id >= rhs.id); };
-    friend bool operator!=(const Data& lhs, const Data& rhs) { return (lhs.id != rhs.id); };
-};
+#include "data.hpp"
 
 
 /**
@@ -460,6 +441,7 @@ int main()
     llist.print();
 
     /* Sort list by data */
+    std::cout << "SORT LIST" << std::endl << std::endl;
 
     llist.sort();
     llist.print();
@@ -467,26 +449,26 @@ int main()
     /* Remove data */
 
     Data dataOut = llist.remove();
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     dataOut = llist.removeFrom(2);
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     dataOut = llist.removeFrom(1);
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     dataOut = llist.pop();
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     // Invalid remove postion
     llist.removeFrom(2);
 
     dataOut = llist.pop();
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     // Invalid remove postion
