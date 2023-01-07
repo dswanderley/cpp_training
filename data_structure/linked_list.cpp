@@ -1,7 +1,6 @@
 #include <cassert>
 #include <iostream>
 #include <iomanip>      // std::setfill, std::setw
-#include <string>
 #include "data.hpp"
 
 
