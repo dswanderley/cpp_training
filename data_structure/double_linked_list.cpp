@@ -27,9 +27,13 @@ class DoubleLinkedList
     void append(const Data& data) { addNode(data, length); };
     void insertAt(const Data& data, uint idx) { addNode(data, idx); };
 
+    Data pop() { return removeNode(length-1); };
+    Data remove() { return removeNode(0); };
+    Data removeFrom(int idx) { return removeNode(idx); };
+
   protected:
     void addNode(const Data& data, uint index);
-    Data removeNode(uint index);
+    Data removeNode(int index);
 
   private:
     std::shared_ptr<Node> head;
@@ -40,11 +44,16 @@ class DoubleLinkedList
     static void goBack(std::shared_ptr<Node>& node);
     static std::shared_ptr<Node> take(std::shared_ptr<Node>& node);
 
+    //void updateTail();
     void startList(std::shared_ptr<Node>& newNode);
     void insertAtInit(std::shared_ptr<Node>& newNode);
     void insertAtEnd(std::shared_ptr<Node>& newNode);
     void insertAtPos(std::shared_ptr<Node>& newNode, int index);
-    //void updateTail();
+
+    Data removeSingle();
+    Data removeFromInit();
+    Data removeFromEnd();
+    Data removeFromPos(int index);
 };
 
 
@@ -189,6 +198,100 @@ void DoubleLinkedList::insertAtPos(std::shared_ptr<Node>& newNode, int index)
     currNode->next = newNode;
 }
 
+/* REMOVALS METHODS */
+
+Data DoubleLinkedList::removeNode(int index)
+{
+    Data data{};
+    // Empty list case
+    if (head == nullptr) {
+        std::cout << "The list is empty." << std::endl << std::endl;
+        return data;
+    }
+    // Invalid index
+    if (index >= length) {
+        std::cout << "Invalid position - index = " << index << std::endl << std::endl;
+        return data;
+    }
+    // Removing node cases
+    if (head->next == nullptr){
+        data = removeSingle();
+    }
+    else if (index == length-1) {
+        data = removeFromEnd();
+    }
+    else if (index == 0) {
+        data = removeFromInit();
+    }
+    else{
+        data = removeFromPos(index);
+    }
+    // Decrement list length
+    length--;
+
+    return data;
+}
+
+Data DoubleLinkedList::removeSingle()
+{
+    // Get data
+    Data data = head->data;
+    // Store node to be deleted
+    std::weak_ptr<Node> tempNode = head;
+    // Clear reference pointers
+    head = nullptr;
+    tail = nullptr;
+
+    return data;
+}
+
+Data DoubleLinkedList::removeFromEnd()
+{
+    std::shared_ptr<Node> currNode = head;
+    std::shared_ptr<Node> nextNode = head->next;        // needed to delete node pointer and keep only data
+    // Iterate through nodes until next be the tail
+    while (nextNode->next != nullptr)
+    {
+        currNode = take(nextNode);
+    }
+    // Get next (tail) data
+    Data data = nextNode->data;
+    // Update tail with current node
+    tail = currNode;
+    tail->next = nullptr;
+
+    return data;
+}
+
+Data DoubleLinkedList::removeFromInit()
+{
+    // Get data
+    Data data = head->data;
+    // Set new head
+    advance(head);
+    head->prev = nullptr;
+
+    return data;
+}
+
+Data DoubleLinkedList::removeFromPos(int idx)
+{
+    std::shared_ptr<Node> currNode = head;
+    int i = 0;
+    // Iterate through nodes until previous node
+    while (i < idx) {
+        advance(currNode);
+        i++;
+    }
+    // Get data
+    Data data = currNode->data;
+    // Update next and prev nodes
+    currNode->prev->next = currNode->next;
+    currNode->next->prev = currNode->prev;
+
+    return data;
+}
+
 
 int main()
 {
@@ -210,6 +313,38 @@ int main()
 
     dlList.print();
     dlList.printBackward();
+
+
+
+
+    Data dataOut = dlList.pop();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
+
+    dlList.print();
+    dlList.printBackward();
+
+    dataOut = dlList.removeFrom(2);
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
+
+    dataOut = dlList.removeFrom(1);
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
+
+    dlList.print();
+    dlList.printBackward();
+
+    dataOut = dlList.remove();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
+
+    // Invalid remove postion
+    dlList.removeFrom(2);
+
+    dataOut = dlList.pop();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
+
+    // Invalid remove postion
+    dlList.remove();
+
+    dlList.print();
 
     return 0;
 }
