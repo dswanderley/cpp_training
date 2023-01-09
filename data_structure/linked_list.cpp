@@ -400,6 +400,7 @@ void LinkedList::updateTail()
     }
     // Update tail
     tail = curr;
+    tail->next = nullptr;
 }
 
 
