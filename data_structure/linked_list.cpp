@@ -258,8 +258,7 @@ Data LinkedList::removeFromEnd()
     // Iterate through nodes until next be the tail
     while (nextNode->next != nullptr)
     {
-        currNode = nextNode;
-        advance(nextNode);
+        currNode = take(nextNode);
     }
     // Get next (tail) data
     Data data = nextNode->data;
@@ -447,7 +446,7 @@ int main()
 
     /* Remove data */
 
-    Data dataOut = llist.remove();
+    Data dataOut = llist.pop();
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
@@ -459,7 +458,7 @@ int main()
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
-    dataOut = llist.pop();
+    dataOut = llist.remove();
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
