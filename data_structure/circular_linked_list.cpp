@@ -225,7 +225,7 @@ Data CircularList::removeFromEnd()
     Node* currNode = head;
     Node* nextNode = head->next;        // needed to delete node pointer and keep only data
     // Iterate through nodes until next be the tail
-    while (nextNode->next != head)
+    while (nextNode->next != head && nextNode->next != nullptr)
     {
         currNode = take(nextNode);
     }
@@ -354,6 +354,21 @@ int main()
 
     clist.print();
     clist.print(8);
+
+    clist.remove();
+    clist.print();
+
+    clist.remove();
+    clist.print();
+
+    clist.remove();
+    clist.print();
+
+    clist.remove();
+    clist.print();
+
+    clist.remove();
+    clist.print();
 
     return 0;
 }
