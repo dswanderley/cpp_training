@@ -43,7 +43,7 @@ class CircularList
      * @brief Sort list by data using merge sort algorithm.
      *
      */
-    void sort() { mergeSort(head); updateTail(); };
+    void sort();
 
   private:
     Node* head;
@@ -52,7 +52,7 @@ class CircularList
 
     void startList(Node*& newNode);
     void insertAtEnd(Node*& newNode);
-    void updateTail();
+    void updateLast();
 
     Data removeSingle();
     Data removeFromEnd();
@@ -277,17 +277,24 @@ CircularList::Node* CircularList::take(Node*& node)
     return result;
 }
 
-void CircularList::updateTail()
+void CircularList::updateLast()
 {
     Node* curr = head;
     // Iterate the whole list
-    while (curr->next != nullptr)
+    while (curr->next != nullptr && curr->next != curr)
     {
         advance(curr);
     }
     // Update tail
     last = curr;
     last->next = head;
+}
+
+void CircularList::sort()
+{
+    last->next = nullptr; // Break the chain
+    mergeSort(head);
+    updateLast();
 }
 
 
@@ -314,6 +321,12 @@ int main()
     clist.append(data3);
     clist.append(data2);
     clist.append(data0);
+
+    clist.print();
+
+    /* Sort list by data */
+    std::cout << "SORT LIST" << std::endl << std::endl;
+    clist.sort();
 
     clist.print();
 
