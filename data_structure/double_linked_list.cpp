@@ -3,35 +3,30 @@
 #include <memory>
 #include "data.hpp"
 
-/**
- * Linked List node
-*/
-struct Node
-{
-    Data data;
-    std::shared_ptr<Node> next;
-    std::shared_ptr<Node> prev;
-};
-
 
 class DoubleLinkedList
 {
   public:
-    DoubleLinkedList(/* args */);
+    DoubleLinkedList();
     ~DoubleLinkedList();
 
     void print() const;
     void printBackward() const;
-
+    void printPtr() const;
+    void sort() { mergeSort(head); updateTail(); };
     void push(const Data& data) { addNode(data, 0); };
     void append(const Data& data) { addNode(data, length); };
     void insertAt(const Data& data, uint idx) { addNode(data, idx); };
-
     Data pop() { return removeNode(length-1); };
     Data remove() { return removeNode(0); };
     Data removeFrom(int idx) { return removeNode(idx); };
 
-    void sort() { mergeSort(head); updateTail(); };
+    struct Node
+    {
+        Data data;
+        std::shared_ptr<Node> next;
+        std::shared_ptr<Node> prev;
+    };
 
   protected:
     void addNode(const Data& data, uint index);
@@ -45,17 +40,14 @@ class DoubleLinkedList
     static void advance(std::shared_ptr<Node>& node);
     static void goBack(std::shared_ptr<Node>& node);
     static std::shared_ptr<Node> take(std::shared_ptr<Node>& node);
-
     static void mergeSort(std::shared_ptr<Node>& startNode);
     static void split(std::shared_ptr<Node> source, std::shared_ptr<Node>& nodeFront, std::shared_ptr<Node>& nodeEnd);
     static std::shared_ptr<Node> merge(std::shared_ptr<Node>& node1, std::shared_ptr<Node>& node2);
-
     void updateTail();
     void startList(std::shared_ptr<Node>& newNode);
     void insertAtInit(std::shared_ptr<Node>& newNode);
     void insertAtEnd(std::shared_ptr<Node>& newNode);
     void insertAtPos(std::shared_ptr<Node>& newNode, int index);
-
     Data removeSingle();
     Data removeFromInit();
     Data removeFromEnd();
@@ -109,6 +101,22 @@ void DoubleLinkedList::printBackward() const
     std::cout << std::endl;
 }
 
+void DoubleLinkedList::printPtr() const
+{
+    std::shared_ptr<Node> temp = head;
+
+    std::cout << "Printing Pointers shared " << length << "." << std::endl;
+
+    int index = 0;
+    while( temp != nullptr ) {
+        std::cout << temp->data.id << ": " << temp.use_count() << std::endl;
+
+        advance(temp);
+    }
+
+    std::cout << std::endl;
+}
+
 /* AUXILIAR METHODS */
 
 void DoubleLinkedList::advance(std::shared_ptr<Node>& node)
@@ -127,7 +135,7 @@ void DoubleLinkedList::goBack(std::shared_ptr<Node>& node)
     }
 }
 
-std::shared_ptr<Node> DoubleLinkedList::take(std::shared_ptr<Node>& node)
+std::shared_ptr<DoubleLinkedList::Node> DoubleLinkedList::take(std::shared_ptr<Node>& node)
 {
     std::shared_ptr<Node> result = node;
     advance(node);
@@ -334,7 +342,7 @@ void DoubleLinkedList::split(std::shared_ptr<Node> source, std::shared_ptr<Node>
     slow->next = nullptr;       // Stop first part in the middle
 }
 
-std::shared_ptr<Node> DoubleLinkedList::merge(std::shared_ptr<Node>& node1, std::shared_ptr<Node>& node2)
+std::shared_ptr<DoubleLinkedList::Node> DoubleLinkedList::merge(std::shared_ptr<Node>& node1, std::shared_ptr<Node>& node2)
 {
     if (node2 == nullptr)
         return node1;
@@ -437,6 +445,7 @@ int main()
     dlList.sort();
     dlList.print();
     dlList.printBackward();
+    dlList.printPtr();
 
     Data dataOut = dlList.pop();
     std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
