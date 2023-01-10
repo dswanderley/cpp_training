@@ -1,27 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include <iomanip>      // std::setfill, std::setw
-#include <string>
-
-
-typedef unsigned int uint;
-
-
-/**
- * Our data
-*/
-struct  Data
-{
-    std::string description;
-    uint id;
-
-    friend bool operator==(const Data& lhs, const Data& rhs) { return (lhs.id == rhs.id); };
-    friend bool operator>(const Data& lhs, const Data& rhs)  { return (lhs.id > rhs.id); };
-    friend bool operator<(const Data& lhs, const Data& rhs)  { return (lhs.id < rhs.id); };
-    friend bool operator<=(const Data& lhs, const Data& rhs) { return (lhs.id <= rhs.id); };
-    friend bool operator>=(const Data& lhs, const Data& rhs) { return (lhs.id >= rhs.id); };
-    friend bool operator!=(const Data& lhs, const Data& rhs) { return (lhs.id != rhs.id); };
-};
+#include "data.hpp"
 
 
 /**
@@ -60,14 +40,14 @@ class LinkedList
      *
      * @param data new data
      */
-    void push(const Data &data) { addNode(data, 0); };
+    void push(const Data& data) { addNode(data, 0); };
 
     /**
      * @brief Insert new data at the end of the list.
      *
      * @param data new data
      */
-    void append(const Data &data) { addNode(data, length); };
+    void append(const Data& data) { addNode(data, length); };
 
     /**
      * @brief Insert new data at a given index postion.
@@ -75,7 +55,7 @@ class LinkedList
      * @param data new data
      * @param idx index/positon
      */
-    void insertAt(const Data &data, uint idx) { addNode(data, idx); };
+    void insertAt(const Data& data, uint idx) { addNode(data, idx); };
 
     /**
      * @brief Remove the last data from the list.
@@ -110,8 +90,8 @@ class LinkedList
     Data removeNode(uint index);
 
   private:
-    Node *head;
-    Node *tail;
+    Node* head;
+    Node* tail;
     uint length;
 
     void startList(Node*& newNode);
@@ -146,7 +126,7 @@ LinkedList::~LinkedList()
 
 void LinkedList::print() const
 {
-    Node *temp = this->head;
+    Node* temp = this->head;
 
     std::cout << "Printing list of length " << length << "." << std::endl;
 
@@ -171,7 +151,7 @@ void LinkedList::addNode(const Data& data, uint index)
         return;
     }
 
-    Node *newNode = new Node();
+    Node* newNode = new Node();
     newNode->data = data;
     newNode->next = nullptr;
 
@@ -211,7 +191,7 @@ void LinkedList::insertAtEnd(Node*& newNode)
 
 void LinkedList::insertAtPos(Node*& newNode, uint index)
 {
-    Node *currNode = head;
+    Node* currNode = head;
     int i = 0;
     while (i < index-1)
     {
@@ -261,7 +241,7 @@ Data LinkedList::removeSingle()
     // Get data
     Data data = head->data;
     // Store node to be deleted
-    Node *tempNode = head;
+    Node* tempNode = head;
     // Clear reference pointers
     head = nullptr;
     tail = nullptr;
@@ -273,13 +253,12 @@ Data LinkedList::removeSingle()
 
 Data LinkedList::removeFromEnd()
 {
-    Node *currNode = head;
-    Node *nextNode = head->next;        // needed to delete node pointer and keep only data
+    Node* currNode = head;
+    Node* nextNode = head->next;        // needed to delete node pointer and keep only data
     // Iterate through nodes until next be the tail
     while (nextNode->next != nullptr)
     {
-        currNode = nextNode;
-        advance(nextNode);
+        currNode = take(nextNode);
     }
     // Get next (tail) data
     Data data = nextNode->data;
@@ -304,8 +283,8 @@ Data LinkedList::removeFromInit()
 
 Data LinkedList::removeFromPos(uint idx)
 {
-    Node *currNode = head;
-    Node *nextNode = head->next;
+    Node* currNode = head;
+    Node* nextNode = head->next;
     uint i = 0;
     // Iterate through nodes until previous node
     while (i < idx-1) {
@@ -421,6 +400,7 @@ void LinkedList::updateTail()
     }
     // Update tail
     tail = curr;
+    tail->next = nullptr;
 }
 
 
@@ -460,33 +440,34 @@ int main()
     llist.print();
 
     /* Sort list by data */
+    std::cout << "SORT LIST" << std::endl << std::endl;
 
     llist.sort();
     llist.print();
 
     /* Remove data */
 
-    Data dataOut = llist.remove();
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    Data dataOut = llist.pop();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     dataOut = llist.removeFrom(2);
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     dataOut = llist.removeFrom(1);
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
-    dataOut = llist.pop();
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    dataOut = llist.remove();
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     // Invalid remove postion
     llist.removeFrom(2);
 
     dataOut = llist.pop();
-    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl;
+    std::cout << "DATA REMOVED - id: " << dataOut.id << ", description: " << dataOut.description << std::endl << std::endl;
     llist.print();
 
     // Invalid remove postion
