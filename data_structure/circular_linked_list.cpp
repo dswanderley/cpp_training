@@ -29,6 +29,7 @@ class CircularList
      * Print list to console
     */
     void print() const;
+    void print(int n) const;
 
     /**
      * @brief Insert new data at the end of the list.
@@ -74,7 +75,34 @@ CircularList::~CircularList()
 {
 }
 
-/* PRINTING METHOD */
+
+/* AUXILIAR METHODS */
+
+void CircularList::advance(Node*& node)
+{
+    assert(node != nullptr);
+    node = node->next;
+}
+
+CircularList::Node* CircularList::take(Node*& node)
+{
+    Node* result = node;
+    advance(node);
+    return result;
+}
+
+void CircularList::updateLast()
+{
+    Node* curr = head;
+    // Iterate the whole list
+    while (curr->next != nullptr && curr->next != curr)
+    {
+        advance(curr);
+    }
+    // Update tail
+    last = curr;
+    last->next = head;
+}
 
 void CircularList::print() const
 {
@@ -91,12 +119,35 @@ void CircularList::print() const
             std::cout << "description: "    << temp->data.description << std::endl;
 
             advance(temp);
+            index++;
         }
         while( temp != head );
     }
 
     std::cout << std::endl;
 }
+
+
+void CircularList::print(int n) const
+{
+    std::cout << "Printing list of length " << length << "." << std::endl;
+
+    if (head != nullptr)
+    {
+        Node* temp = head;
+
+        for (int i = 0; i < n; i++)
+        {
+            std::cout << "(" << std::setw(2) << std::setfill('0') << i % length << ") ";
+            std::cout << "id: "             << temp->data.id << ", ";
+            std::cout << "description: "    << temp->data.description << std::endl;
+
+            advance(temp);
+        }
+    }
+    std::cout << std::endl;
+}
+
 
 /* INSERTIONS METHODS */
 
@@ -262,34 +313,6 @@ void CircularList::mergeSort(Node*& startNode)
     startNode = merge(frontNode, middleNode);
 }
 
-/* AUXILIAR METHODS */
-
-void CircularList::advance(Node*& node)
-{
-    assert(node != nullptr);
-    node = node->next;
-}
-
-CircularList::Node* CircularList::take(Node*& node)
-{
-    Node* result = node;
-    advance(node);
-    return result;
-}
-
-void CircularList::updateLast()
-{
-    Node* curr = head;
-    // Iterate the whole list
-    while (curr->next != nullptr && curr->next != curr)
-    {
-        advance(curr);
-    }
-    // Update tail
-    last = curr;
-    last->next = head;
-}
-
 void CircularList::sort()
 {
     last->next = nullptr; // Break the chain
@@ -323,12 +346,14 @@ int main()
     clist.append(data0);
 
     clist.print();
+    clist.print(15);
 
     /* Sort list by data */
     std::cout << "SORT LIST" << std::endl << std::endl;
     clist.sort();
 
     clist.print();
+    clist.print(8);
 
     return 0;
 }
