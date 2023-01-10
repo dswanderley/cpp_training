@@ -18,7 +18,7 @@ int main() {
      */
 
     /* POINTER TO CONSTANT DATA */
-    const int *p_cint;          // *p_cint is a "const int" - usually refer as "const pointer" - works as a reader
+    const int* p_cint;          // *p_cint is a "const int" - usually refer as "const pointer" - works as a reader
 
     // CASE 1 - point to const
     p_cint = &c1;
@@ -48,7 +48,7 @@ int main() {
     int v2 = 0;
 
     // Point to a variable
-    int * const pc_int = &v2;         // Address stored cannot be changed, only data - works as a fixed watcher that can modify the data
+    int* const pc_int = &v2;         // Address stored cannot be changed, only data - works as a fixed watcher that can modify the data
     std::cout << "p_int (" << &pc_int << ")" << std::endl;
     std::cout << "Pointer to: " << pc_int << ", value: " << *pc_int << std::endl;
 
@@ -67,7 +67,7 @@ int main() {
     /* CONSTANT POINTER TO CONSTANT DATA */
 
     // CASE 1 - Point to const
-    const int * const pc_cint1 = &c1;
+    const int* const pc_cint1 = &c1;
     std::cout << "pc_cint1 (" << &pc_cint1 << ")" << std::endl;
     std::cout << "Pointer to: " << pc_cint1 << ", value: " << *pc_cint1 << std::endl;
 
@@ -78,7 +78,7 @@ int main() {
     // *pc_cint1 = 50;      /* error:  error: assignment of read-only location '*(const int*)pc_cint1' */
 
     // CASE 4 - Point to variable
-    const int * const pc_cint2 = &v1;
+    const int* const pc_cint2 = &v1;
     std::cout << "pc_cint2 (" << &pc_cint2 << ")" << std::endl;
     std::cout << "Pointer to: " << pc_cint2 << ", value: " << *pc_cint2 << std::endl;
 

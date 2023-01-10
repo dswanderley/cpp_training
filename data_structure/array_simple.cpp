@@ -10,7 +10,7 @@ class ArraySimple {
 
     private:
         /* Pointer to list */
-        Item *list;
+        Item* list;
         /* List current length */
         unsigned int length;
 
@@ -55,13 +55,13 @@ class ArraySimple {
          * @param index
          * @return The item
         */
-        Item pop(unsigned int index, bool &valid) {
+        Item pop(unsigned int index, bool& valid) {
             // Output item
             Item item{};
             // Validate index
             if (length > 0 && index < length) {
                 // Init temporary list
-                Item *tempList = new Item[length + 1];
+                Item* tempList = new Item[length + 1];
                 // Get output item
                 item = std::move(list[index]);
                 // Fill first part - before index
@@ -125,7 +125,7 @@ class ArraySimple {
          * @param valid
          * @return item
         */
-        Item removeFirst(bool &valid) { return pop(0, valid); };
+        Item removeFirst(bool& valid) { return pop(0, valid); };
 
         /**
          * Remove the last item from the list.
@@ -133,7 +133,7 @@ class ArraySimple {
          * @param valid
          * @return item
         */
-        Item removeLast(bool &valid) { return pop(length-1, valid); };
+        Item removeLast(bool& valid) { return pop(length-1, valid); };
 
         /**
          * Remove an item from the list given an index.
@@ -142,7 +142,7 @@ class ArraySimple {
          * @param index
          * @return item
         */
-        Item remove(unsigned int index, bool &valid) { return pop(index, valid); };
+        Item remove(unsigned int index, bool& valid) { return pop(index, valid); };
 
         /**
          * Print list to console.
