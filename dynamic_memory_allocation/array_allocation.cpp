@@ -14,7 +14,7 @@ using namespace std;
 int* allocateArrayMemory(int len) {
 
     // Return variable
-    int *arr;
+    int* arr;
     // Allocate memory
     arr = (int*) malloc( len * sizeof(len) );
 

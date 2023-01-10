@@ -15,14 +15,14 @@ struct Point {
 int main() {
 
     /* pointer to struct */
-    Point *ptPtr = new Point;
+    Point* ptPtr = new Point;
     ptPtr->x = 1;
     ptPtr->y = 2;
     std::cout << "My point is: (" << ptPtr->x << ", " << ptPtr->y << ").\n";
 
     /* Array (pointer) of structs */
     int len = 10;
-    Point *arr = new Point[len]();
+    Point* arr = new Point[len]();
 
     // Changing one value
     arr[4].x = 5;
